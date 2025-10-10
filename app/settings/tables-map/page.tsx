@@ -212,7 +212,7 @@ export default function TablesMapPage() {
       maxWidth: '1200px',
       margin: '0 auto',
       padding: '20px',
-      backgroundColor: '#0f172a',
+      backgroundColor: '#f9fafb',
       minHeight: '100vh'
     }}>
       {/* Cabecera de la página */}
@@ -227,8 +227,8 @@ export default function TablesMapPage() {
         <div>
           <h1 style={{ 
             fontSize: '24px',
-            fontWeight: 'bold',
-            color: '#f8fafc',
+            fontWeight: '700',
+            color: '#111827',
             marginBottom: '4px'
           }}>
             Mapa de Mesas
@@ -247,11 +247,11 @@ export default function TablesMapPage() {
               onChange={(e) => handleDateChange(e.target.value)}
               style={{
                 padding: '8px 12px',
-                border: '1px solid #334155',
-                borderRadius: '6px',
+                border: '1px solid #d1d5db',
+                borderRadius: '8px',
                 fontSize: '14px',
-                backgroundColor: '#111827',
-                color: '#e5e7eb',
+                backgroundColor: '#ffffff',
+                color: '#374151',
               }}
             />
           )}
@@ -259,16 +259,16 @@ export default function TablesMapPage() {
           {/* Interruptor de modo vista/edición */}
           <div style={{ 
             display: 'flex',
-            backgroundColor: '#1f2937',
-            borderRadius: '6px',
+            backgroundColor: '#f3f4f6',
+            borderRadius: '8px',
             padding: '2px'
           }}>
             <button
               onClick={() => setViewMode('view')}
               style={{
                 padding: '6px 12px',
-                backgroundColor: viewMode === 'view' ? '#2563eb' : 'transparent',
-                color: viewMode === 'view' ? '#ffffff' : '#e2e8f0',
+                backgroundColor: viewMode === 'view' ? '#3b82f6' : 'transparent',
+                color: viewMode === 'view' ? '#ffffff' : '#6b7280',
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
@@ -282,8 +282,8 @@ export default function TablesMapPage() {
               onClick={() => setViewMode('edit')}
               style={{
                 padding: '6px 12px',
-                backgroundColor: viewMode === 'edit' ? '#2563eb' : 'transparent',
-                color: viewMode === 'edit' ? '#ffffff' : '#e2e8f0',
+                backgroundColor: viewMode === 'edit' ? '#3b82f6' : 'transparent',
+                color: viewMode === 'edit' ? '#ffffff' : '#6b7280',
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
@@ -301,11 +301,11 @@ export default function TablesMapPage() {
       {error && (
         <div style={{
           padding: '12px',
-          backgroundColor: '#1e293b',
-          border: '1px solid #334155',
-          borderRadius: '6px',
+          backgroundColor: '#fef2f2',
+          border: '1px solid #fecaca',
+          borderRadius: '8px',
           marginBottom: '20px',
-          color: '#e5e7eb',
+          color: '#991b1b',
           fontSize: '14px',
         }}>
           {error}
@@ -357,10 +357,11 @@ export default function TablesMapPage() {
             <div style={{
               width: '100%',
               padding: '16px',
-              backgroundColor: '#111827',
-              border: '1px solid #334155',
-              borderRadius: '8px',
+              backgroundColor: '#ffffff',
+              border: '1px solid #e5e7eb',
+              borderRadius: '12px',
               marginTop: '20px',
+              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
             }}>
               <div style={{
                 display: 'flex',
@@ -387,13 +388,13 @@ export default function TablesMapPage() {
               
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '14px' }}>
                 <div>
-                  <span style={{ color: '#94a3b8' }}>Capacidad:</span>
+                  <span style={{ color: '#6b7280' }}>Capacidad:</span>
                   <span style={{ fontWeight: 'medium', marginLeft: '4px' }}>
                     {selectedTable.capacity} personas
                   </span>
                 </div>
                 <div>
-                  <span style={{ color: '#94a3b8' }}>Ubicación:</span>
+                  <span style={{ color: '#6b7280' }}>Ubicación:</span>
                   <span style={{ fontWeight: 'medium', marginLeft: '4px' }}>
                     {selectedTable.location === 'interior' ? 'Interior' : 
                      selectedTable.location === 'terraza' ? 'Terraza' : 
@@ -401,14 +402,14 @@ export default function TablesMapPage() {
                   </span>
                 </div>
                 <div>
-                  <span style={{ color: '#94a3b8' }}>Forma:</span>
+                  <span style={{ color: '#6b7280' }}>Forma:</span>
                   <span style={{ fontWeight: 'medium', marginLeft: '4px' }}>
                     {selectedTable.shape === 'square' ? 'Cuadrada' : 
                      selectedTable.shape === 'rectangle' ? 'Rectangular' : 'Redonda'}
                   </span>
                 </div>
                 <div>
-                  <span style={{ color: '#94a3b8' }}>Estado:</span>
+                  <span style={{ color: '#6b7280' }}>Estado:</span>
                   <span style={{ 
                     fontWeight: 'medium', 
                     marginLeft: '4px',
@@ -456,7 +457,7 @@ export default function TablesMapPage() {
                     onClick={() => handleDeleteTable(selectedTable.id)}
                     style={{
                       padding: '8px 12px',
-                      backgroundColor: '#dc2626',
+                      backgroundColor: '#ef4444',
                       color: '#ffffff',
                       border: 'none',
                       borderRadius: '4px',

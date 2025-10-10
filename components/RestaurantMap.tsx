@@ -228,11 +228,12 @@ export default function RestaurantMap({
         position: 'absolute',
         left: '10px',
         bottom: '10px',
-        backgroundColor: '#1e293b',
-        border: '1px dashed #334155',
+        backgroundColor: '#fef3c7',
+        border: '1px dashed #f59e0b',
         borderRadius: '8px',
         padding: '8px',
         maxWidth: '200px',
+        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
       }}
     >
       <div style={{ 
@@ -261,11 +262,12 @@ export default function RestaurantMap({
         style={{
           width: '100%',
           height: '600px',
-          backgroundColor: '#0f172a',
-          border: '1px solid #334155',
-          borderRadius: '8px',
+          backgroundColor: '#ffffff',
+          border: '1px solid #e5e7eb',
+          borderRadius: '12px',
           position: 'relative',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
         }}
       >
         {/* Renderizar zonas */}

@@ -81,11 +81,12 @@ export default function MapEditTools({
   return (
     <div className="map-edit-tools" style={{ 
       width: '100%',
-      backgroundColor: '#111827',
-      border: '1px solid #334155',
-      borderRadius: '8px',
+      backgroundColor: '#ffffff',
+      border: '1px solid #e5e7eb',
+      borderRadius: '12px',
       padding: '16px',
-      marginBottom: '16px'
+      marginBottom: '16px',
+      boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
     }}>
       <div className="tools-header" style={{ 
         display: 'flex', 
@@ -104,7 +105,7 @@ export default function MapEditTools({
       {/* Pestañas */}
       <div className="tabs" style={{ 
         display: 'flex', 
-        borderBottom: '1px solid #334155',
+        borderBottom: '1px solid #e5e7eb',
         marginBottom: '16px'
       }}>
         <button
@@ -112,8 +113,8 @@ export default function MapEditTools({
           style={{
             flex: 1,
             padding: '8px 16px',
-            backgroundColor: activeTab === 'table' ? '#2563eb' : 'transparent',
-            color: activeTab === 'table' ? '#ffffff' : '#94a3b8',
+            backgroundColor: activeTab === 'table' ? '#3b82f6' : 'transparent',
+            color: activeTab === 'table' ? '#ffffff' : '#6b7280',
             border: 'none',
             borderRadius: '6px 6px 0 0',
             cursor: 'pointer',
@@ -128,8 +129,8 @@ export default function MapEditTools({
           style={{
             flex: 1,
             padding: '8px 16px',
-            backgroundColor: activeTab === 'zone' ? '#2563eb' : 'transparent',
-            color: activeTab === 'zone' ? '#ffffff' : '#94a3b8',
+            backgroundColor: activeTab === 'zone' ? '#3b82f6' : 'transparent',
+            color: activeTab === 'zone' ? '#ffffff' : '#6b7280',
             border: 'none',
             borderRadius: '6px 6px 0 0',
             cursor: 'pointer',
@@ -148,7 +149,7 @@ export default function MapEditTools({
           style={{
             width: '100%',
             padding: '12px',
-            backgroundColor: '#2563eb',
+            backgroundColor: '#3b82f6',
             color: '#ffffff',
             border: 'none',
             borderRadius: '6px',
@@ -176,7 +177,7 @@ export default function MapEditTools({
               style={{
                 width: '100%',
                 padding: '8px 12px',
-                border: '1px solid #334155',
+                border: '1px solid #d1d5db',
                 borderRadius: '6px',
                 fontSize: '14px',
               }}
@@ -196,7 +197,7 @@ export default function MapEditTools({
               style={{
                 width: '100%',
                 padding: '8px 12px',
-                border: '1px solid #334155',
+                border: '1px solid #d1d5db',
                 borderRadius: '6px',
                 fontSize: '14px',
               }}
@@ -216,7 +217,7 @@ export default function MapEditTools({
               style={{
                 width: '100%',
                 padding: '8px 12px',
-                border: '1px solid #334155',
+                border: '1px solid #d1d5db',
                 borderRadius: '6px',
                 fontSize: '14px',
               }}
@@ -239,7 +240,7 @@ export default function MapEditTools({
               style={{
                 width: '100%',
                 padding: '8px 12px',
-                border: '1px solid #334155',
+                border: '1px solid #d1d5db',
                 borderRadius: '6px',
                 fontSize: '14px',
               }}
@@ -266,7 +267,7 @@ export default function MapEditTools({
                 style={{
                   flex: 1,
                   padding: '8px 12px',
-                  border: '1px solid #334155',
+                  border: '1px solid #d1d5db',
                   borderRadius: '6px',
                   fontSize: '14px',
                 }}
@@ -284,7 +285,7 @@ export default function MapEditTools({
                 style={{
                   flex: 1,
                   padding: '8px 12px',
-                  border: '1px solid #334155',
+                  border: '1px solid #d1d5db',
                   borderRadius: '6px',
                   fontSize: '14px',
                 }}
@@ -301,7 +302,7 @@ export default function MapEditTools({
               style={{
                 flex: 1,
                 padding: '10px',
-                backgroundColor: '#2563eb',
+                backgroundColor: '#3b82f6',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '6px',
@@ -320,7 +321,7 @@ export default function MapEditTools({
                 padding: '10px',
                 backgroundColor: '#f3f4f6',
                 color: '#374151',
-                border: '1px solid #334155',
+                border: '1px solid #d1d5db',
                 borderRadius: '6px',
                 cursor: 'pointer',
                 fontSize: '14px',
@@ -347,7 +348,7 @@ export default function MapEditTools({
               style={{
                 width: '100%',
                 padding: '8px 12px',
-                border: '1px solid #334155',
+                border: '1px solid #d1d5db',
                 borderRadius: '6px',
                 fontSize: '14px',
               }}
@@ -366,7 +367,7 @@ export default function MapEditTools({
               style={{
                 width: '100%',
                 padding: '8px 12px',
-                border: '1px solid #334155',
+                border: '1px solid #d1d5db',
                 borderRadius: '6px',
                 fontSize: '14px',
               }}

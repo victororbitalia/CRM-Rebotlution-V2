@@ -88,7 +88,7 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" style={{ backgroundColor: '#f9fafb', minHeight: '100vh' }}>
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[var(--text-primary)] mb-1">
@@ -135,7 +135,7 @@ export default function SettingsPage() {
 
       {/* General */}
       {activeTab === 'general' && (
-        <div className="card p-6 space-y-6">
+        <div className="card p-6 space-y-6" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
           <div>
             <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
               Información General
@@ -193,7 +193,7 @@ export default function SettingsPage() {
       {/* Reservas */}
       {activeTab === 'reservations' && (
         <div className="space-y-6">
-          <div className="card overflow-hidden">
+          <div className="card overflow-hidden" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
             <button
               onClick={() => toggleSection('reservations')}
               className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
@@ -348,7 +348,7 @@ export default function SettingsPage() {
           </div>
 
           {/* Horarios de apertura - Integrado en la pestaña de reservas */}
-          <div className="card overflow-hidden">
+          <div className="card overflow-hidden" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
             <button
               onClick={() => toggleSection('schedule')}
               className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
@@ -374,7 +374,7 @@ export default function SettingsPage() {
               {daysOfWeek.map((day) => (
                 <div key={day.key} className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-semibold text-[var(--text-primary)]">{day.label}</h3>
+                    <h3 className="font-semibold text-gray-900">{day.label}</h3>
                     <label className="flex items-center gap-2">
                       <input
                         type="checkbox"
@@ -446,7 +446,7 @@ export default function SettingsPage() {
           </div>
 
           {/* Reglas por día de la semana */}
-          <div className="card overflow-hidden">
+          <div className="card overflow-hidden" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
             <button
               onClick={() => toggleSection('capacity')}
               className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
@@ -472,7 +472,7 @@ export default function SettingsPage() {
             <div className="space-y-4">
               {daysOfWeek.map((day) => (
                 <div key={day.key} className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-                  <h3 className="font-semibold text-[var(--text-primary)] mb-3">{day.label}</h3>
+                  <h3 className="font-semibold text-gray-900 mb-3">{day.label}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
@@ -523,7 +523,7 @@ export default function SettingsPage() {
 
       {/* Mesas */}
       {activeTab === 'tables' && (
-        <div className="card p-6">
+        <div className="card p-6" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
           <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
             Gestión de Mesas
           </h2>
@@ -586,7 +586,7 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
               <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">
                 💡 Cálculo Automático
               </h3>
@@ -598,11 +598,11 @@ export default function SettingsPage() {
             </div>
 
             {/* Notificaciones por Email - Ahora funcional */}
-            <div className="card p-6 mt-6">
+            <div className="card p-6 mt-6" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
               <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
                 Notificaciones por Email
               </h2>
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 mb-4">
+              <div className="p-4 bg-green-50 rounded-lg border border-green-200 mb-4">
                 <h3 className="font-semibold text-green-900 dark:text-green-300 mb-2">
                   ✅ Funcionalidad Activada
                 </h3>
@@ -650,7 +650,7 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
+            <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
               <h3 className="font-semibold text-amber-900 dark:text-amber-300 mb-2">
                 ⚠️ Funcionalidades Pendientes
               </h3>
@@ -671,14 +671,14 @@ export default function SettingsPage() {
 
       {/* Mapa de Mesas - Redirección a la página dedicada */}
       {activeTab === 'tables-map' && (
-        <div className="card p-6 text-center">
+        <div className="card p-6 text-center" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
           <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
             Mapa Visual de Mesas
           </h2>
           <p className="text-sm text-[var(--text-secondary)] mb-6">
             Organiza visualmente tu restaurante con nuestro mapa interactivo de mesas.
           </p>
-          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800 mb-6">
+          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200 mb-6">
             <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">
               🗺️ Características del Mapa
             </h3>
