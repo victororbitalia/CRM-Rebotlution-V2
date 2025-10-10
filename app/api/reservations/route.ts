@@ -169,12 +169,75 @@ export async function POST(request: NextRequest) {
       }
     }
     
+    // Validación de horarios de apertura/cierre
     const dayOfWeek = reservationDateTime.weekday % 7; // Luxon: 1-7 (Mon-Sun), JS: 0-6 (Sun-Sat)
     const dayNames = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
-    const weekdayRules = settings.weekdayRules as any;
-
-    // Verificar si el día está habilitado
     const dayKey = dayNames[dayOfWeek];
+    const weekdayRules = settings.weekdayRules as any;
+    const schedule = settings.schedule as any;
+
+    // Verificar si el restaurante está abierto ese día según el horario
+    if (schedule?.[dayKey]) {
+      const daySchedule = schedule[dayKey];
+      
+      // Si el día está marcado como cerrado
+      if (daySchedule.isOpen === false) {
+        const dayNamesSpanish = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        return NextResponse.json(
+          { success: false, error: `El restaurante está cerrado los ${dayNamesSpanish[dayOfWeek]}` },
+          { status: 409 }
+        );
+      }
+      
+      // Si el día está abierto, validar horarios
+      if (daySchedule.isOpen === true && daySchedule.openTime && daySchedule.closeTime) {
+        const [openHour, openMinute] = daySchedule.openTime.split(':').map(Number);
+        const [closeHourRaw, closeMinute] = daySchedule.closeTime.split(':').map(Number);
+        
+        // Interpretar 00:00 como medianoche (24:00)
+        const closeHour = closeHourRaw === 0 ? 24 : closeHourRaw;
+        
+        const openingTime = dayDate.set({ hour: openHour, minute: openMinute, second: 0, millisecond: 0 });
+        const closingTime = dayDate.set({ hour: closeHour, minute: closeMinute, second: 0, millisecond: 0 });
+        
+        // Si el cierre es al día siguiente (ej: 01:00)
+        const actualClosingTime = closeHour < openHour ?
+          dayDate.plus({ days: 1 }).set({ hour: closeHour, minute: closeMinute, second: 0, millisecond: 0 }) :
+          closingTime;
+        
+        // Validar que la hora de reserva esté dentro del horario de apertura
+        if (reservationDateTime < openingTime) {
+          return NextResponse.json(
+            { success: false, error: `El restaurante abre a las ${daySchedule.openTime}. La reserva es para las ${body.time}.` },
+            { status: 409 }
+          );
+        }
+        
+        // Validar que la hora de reserva no sea después del cierre
+        if (reservationDateTime > actualClosingTime) {
+          return NextResponse.json(
+            { success: false, error: `El restaurante cierra a las ${daySchedule.closeTime}. La reserva es para las ${body.time}.` },
+            { status: 409 }
+          );
+        }
+        
+        // Validar que la reserva más su duración no exceda el horario de cierre
+        const durationMinutes = Number(settings.reservations?.defaultDuration || 120);
+        const reservationEndTime = reservationDateTime.plus({ minutes: durationMinutes });
+        
+        if (reservationEndTime > actualClosingTime) {
+          return NextResponse.json(
+            {
+              success: false,
+              error: `La reserva de ${durationMinutes} minutos excede el horario de cierre (${daySchedule.closeTime}).`
+            },
+            { status: 409 }
+          );
+        }
+      }
+    }
+
+    // Verificar si el día está habilitado en las reglas de capacidad
     if (!weekdayRules?.[dayKey]) {
       return NextResponse.json(
         { success: false, error: 'Reglas de capacidad no definidas para este día' },
@@ -383,6 +446,33 @@ export async function POST(request: NextRequest) {
     });
 
     console.log('Reserva creada exitosamente:', newReservation);
+    
+    // Enviar email de confirmación si está habilitado
+    try {
+      if (settings.notifications?.emailEnabled && settings.notifications?.sendConfirmationEmail) {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+        const emailResponse = await fetch(`${baseUrl}/api/notifications/email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'confirmation',
+            reservationId: newReservation.id,
+            recipientEmail: newReservation.customerEmail,
+            recipientName: newReservation.customerName,
+          }),
+        });
+        
+        if (emailResponse.ok) {
+          console.log('Email de confirmación enviado correctamente');
+        } else {
+          console.error('Error al enviar email de confirmación');
+        }
+      }
+    } catch (emailError) {
+      console.error('Error al procesar envío de email:', emailError);
+      // No fallamos la creación de reserva si el email falla
+    }
+    
     return NextResponse.json({ success: true, data: newReservation, message: 'Reserva creada exitosamente' }, { status: 201 });
   } catch (error) {
     console.error('Error al crear reserva:', error);

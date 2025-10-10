@@ -75,27 +75,44 @@ export default function ReservationsPage() {
         }
       }
 
-      // Dentro del horario de apertura/cierre y duración
+      // Validación mejorada de horarios de apertura/cierre
       const dayNames = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
       const dayKey = dayNames[(reservationDT.weekday) % 7];
       const sched = settings?.schedule?.[dayKey];
+      
+      // Verificar si el restaurante está abierto ese día
       if (!sched || sched.isOpen === false) {
-        setFormError('El restaurante no está abierto este día');
+        const dayNamesSpanish = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        setFormError(`El restaurante está cerrado los ${dayNamesSpanish[(reservationDT.weekday) % 7]}`);
         return;
       }
-      const [openH, openM] = (sched.openTime || '00:00').split(':').map((v: string) => parseInt(v, 10) || 0);
-      const [closeHRaw, closeM] = (sched.closeTime || '23:59').split(':').map((v: string) => parseInt(v, 10) || 0);
-      const closingIsMidnight = closeHRaw === 0 && closeM === 0; // interpretar 00:00 como fin de día
+      
+      // Validar horarios de apertura y cierre
+      if (!sched.openTime || !sched.closeTime) {
+        setFormError('No se han configurado los horarios de apertura y cierre para este día');
+        return;
+      }
+      
+      const [openH, openM] = sched.openTime.split(':').map((v: string) => parseInt(v, 10) || 0);
+      const [closeHRaw, closeM] = sched.closeTime.split(':').map((v: string) => parseInt(v, 10) || 0);
+      
+      // Interpretar 00:00 como medianoche (fin del día)
+      const closingIsMidnight = closeHRaw === 0 && closeM === 0;
       const closeH = closingIsMidnight ? 24 : closeHRaw;
+      
       const openDT = dayDate.set({ hour: openH, minute: openM, second: 0, millisecond: 0 });
       const closeDT = dayDate.plus({ days: closeH === 24 ? 1 : 0 }).set({ hour: closeH % 24, minute: closeM, second: 0, millisecond: 0 });
+      
+      // Validar que la reserva esté dentro del horario de apertura
       if (reservationDT < openDT) {
-        setFormError(`La hora seleccionada está antes de la apertura (${sched.openTime})`);
+        setFormError(`El restaurante abre a las ${sched.openTime}. La reserva es para las ${formData.time}.`);
         return;
       }
+      
+      // Validar que la reserva más su duración no exceda el horario de cierre
       const reservationEnd = reservationDT.plus({ minutes: durationMinutes });
       if (reservationEnd > closeDT) {
-        setFormError(`La reserva excede el horario de cierre (${sched.closeTime}) considerando la duración (${durationMinutes} min)`);
+        setFormError(`La reserva de ${durationMinutes} minutos excede el horario de cierre (${sched.closeTime}).`);
         return;
       }
 

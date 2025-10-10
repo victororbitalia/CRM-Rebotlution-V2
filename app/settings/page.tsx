@@ -7,7 +7,7 @@ import { CheckIcon } from '@/components/Icons';
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState<RestaurantSettings>(defaultSettings);
-  const [activeTab, setActiveTab] = useState<'general' | 'reservations' | 'tables' | 'schedule' | 'notifications' | 'policies'>('general');
+  const [activeTab, setActiveTab] = useState<'general' | 'reservations' | 'tables'>('general');
   const [saved, setSaved] = useState(false);
 
   // Cargar ajustes desde API al montar
@@ -60,9 +60,6 @@ export default function SettingsPage() {
     { id: 'general', label: 'General', icon: '🏢' },
     { id: 'reservations', label: 'Reservas', icon: '📅' },
     { id: 'tables', label: 'Mesas', icon: '🪑' },
-    { id: 'schedule', label: 'Horarios', icon: '🕐' },
-    { id: 'notifications', label: 'Notificaciones', icon: '🔔' },
-    { id: 'policies', label: 'Políticas', icon: '📋' },
   ];
 
   const daysOfWeek = [
@@ -318,6 +315,87 @@ export default function SettingsPage() {
             </div>
           </div>
 
+          {/* Horarios de apertura - Integrado en la pestaña de reservas */}
+          <div className="card p-6">
+            <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+              Horarios de Apertura
+            </h2>
+            <p className="text-sm text-[var(--text-secondary)] mb-6">
+              Define los días y horas de funcionamiento del restaurante. Las reservas solo se permitirán dentro de estos horarios.
+            </p>
+            <div className="space-y-4">
+              {daysOfWeek.map((day) => (
+                <div key={day.key} className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="font-semibold text-[var(--text-primary)]">{day.label}</h3>
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={settings.schedule[day.key]?.isOpen || false}
+                        onChange={(e) => setSettings({
+                          ...settings,
+                          schedule: {
+                            ...settings.schedule,
+                            [day.key]: {
+                              ...settings.schedule[day.key],
+                              isOpen: e.target.checked,
+                            },
+                          },
+                        })}
+                        className="w-4 h-4 text-blue-600 rounded"
+                      />
+                      <span className="text-sm text-[var(--text-primary)]">Abierto</span>
+                    </label>
+                  </div>
+                  {settings.schedule[day.key]?.isOpen && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                          Apertura
+                        </label>
+                        <input
+                          type="time"
+                          value={settings.schedule[day.key]?.openTime || ''}
+                          onChange={(e) => setSettings({
+                            ...settings,
+                            schedule: {
+                              ...settings.schedule,
+                              [day.key]: {
+                                ...settings.schedule[day.key],
+                                openTime: e.target.value,
+                              },
+                            },
+                          })}
+                          className="input-field"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                          Cierre
+                        </label>
+                        <input
+                          type="time"
+                          value={settings.schedule[day.key]?.closeTime || ''}
+                          onChange={(e) => setSettings({
+                            ...settings,
+                            schedule: {
+                              ...settings.schedule,
+                              [day.key]: {
+                                ...settings.schedule[day.key],
+                                closeTime: e.target.value,
+                              },
+                            },
+                          })}
+                          className="input-field"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Reglas por día de la semana */}
           <div className="card p-6">
             <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
@@ -453,290 +531,73 @@ export default function SettingsPage() {
               </div>
             </div>
 
-            <div className="space-y-3">
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={settings.tables.allowOverbooking}
-                  onChange={(e) => setSettings({
-                    ...settings,
-                    tables: { ...settings.tables, allowOverbooking: e.target.checked }
-                  })}
-                  className="w-4 h-4 text-blue-600 rounded"
-                />
-                <span className="text-sm text-[var(--text-primary)]">
-                  Permitir overbooking (reservar más allá de la capacidad)
-                </span>
-              </label>
-
-              {settings.tables.allowOverbooking && (
-                <div className="ml-7">
-                  <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
-                    Porcentaje de overbooking (%)
-                  </label>
-                  <input
-                    type="number"
-                    value={settings.tables.overbookingPercentage}
-                    onChange={(e) => setSettings({
-                      ...settings,
-                      tables: { ...settings.tables, overbookingPercentage: parseInt(e.target.value) }
-                    })}
-                    className="input-field max-w-xs"
-                    min="0"
-                    max="50"
-                  />
-                  <p className="text-xs text-[var(--text-secondary)] mt-1">
-                    Permite reservar un % extra considerando no-shows
-                  </p>
+            {/* Notificaciones por Email - Ahora funcional */}
+            <div className="card p-6 mt-6">
+              <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+                Notificaciones por Email
+              </h2>
+              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 mb-4">
+                <h3 className="font-semibold text-green-900 dark:text-green-300 mb-2">
+                  ✅ Funcionalidad Activada
+                </h3>
+                <div className="text-sm text-green-800 dark:text-green-200">
+                  <p>El sistema ahora puede enviar emails de confirmación automáticos cuando se crean reservas.</p>
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Horarios */}
-      {activeTab === 'schedule' && (
-        <div className="card p-6">
-          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-            Horarios de Apertura
-          </h2>
-          <div className="space-y-4">
-            {daysOfWeek.map((day) => (
-              <div key={day.key} className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-[var(--text-primary)]">{day.label}</h3>
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={settings.schedule[day.key]?.isOpen || false}
-                      onChange={(e) => setSettings({
-                        ...settings,
-                        schedule: {
-                          ...settings.schedule,
-                          [day.key]: {
-                            ...settings.schedule[day.key],
-                            isOpen: e.target.checked,
-                          },
-                        },
-                      })}
-                      className="w-4 h-4 text-blue-600 rounded"
-                    />
-                    <span className="text-sm text-[var(--text-primary)]">Abierto</span>
-                  </label>
-                </div>
-                {settings.schedule[day.key]?.isOpen && (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
-                        Apertura
-                      </label>
-                      <input
-                        type="time"
-                        value={settings.schedule[day.key]?.openTime || ''}
-                        onChange={(e) => setSettings({
-                          ...settings,
-                          schedule: {
-                            ...settings.schedule,
-                            [day.key]: {
-                              ...settings.schedule[day.key],
-                              openTime: e.target.value,
-                            },
-                          },
-                        })}
-                        className="input-field"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
-                        Cierre
-                      </label>
-                      <input
-                        type="time"
-                        value={settings.schedule[day.key]?.closeTime || ''}
-                        onChange={(e) => setSettings({
-                          ...settings,
-                          schedule: {
-                            ...settings.schedule,
-                            [day.key]: {
-                              ...settings.schedule[day.key],
-                              closeTime: e.target.value,
-                            },
-                          },
-                        })}
-                        className="input-field"
-                      />
-                    </div>
-                  </div>
-                )}
               </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Notificaciones */}
-      {activeTab === 'notifications' && (
-        <div className="card p-6">
-          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-            Configuración de Notificaciones
-          </h2>
-          <div className="space-y-6">
-            <div className="space-y-3">
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={settings.notifications.emailEnabled}
-                  onChange={(e) => setSettings({
-                    ...settings,
-                    notifications: { ...settings.notifications, emailEnabled: e.target.checked }
-                  })}
-                  className="w-4 h-4 text-blue-600 rounded"
-                />
-                <span className="text-sm text-[var(--text-primary)]">
-                  Activar notificaciones por email
-                </span>
-              </label>
-
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={settings.notifications.smsEnabled}
-                  onChange={(e) => setSettings({
-                    ...settings,
-                    notifications: { ...settings.notifications, smsEnabled: e.target.checked }
-                  })}
-                  className="w-4 h-4 text-blue-600 rounded"
-                />
-                <span className="text-sm text-[var(--text-primary)]">
-                  Activar notificaciones por SMS
-                </span>
-              </label>
-
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={settings.notifications.sendConfirmationEmail}
-                  onChange={(e) => setSettings({
-                    ...settings,
-                    notifications: { ...settings.notifications, sendConfirmationEmail: e.target.checked }
-                  })}
-                  className="w-4 h-4 text-blue-600 rounded"
-                />
-                <span className="text-sm text-[var(--text-primary)]">
-                  Enviar email de confirmación
-                </span>
-              </label>
-
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={settings.notifications.sendReminderEmail}
-                  onChange={(e) => setSettings({
-                    ...settings,
-                    notifications: { ...settings.notifications, sendReminderEmail: e.target.checked }
-                  })}
-                  className="w-4 h-4 text-blue-600 rounded"
-                />
-                <span className="text-sm text-[var(--text-primary)]">
-                  Enviar email recordatorio
-                </span>
-              </label>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
-                Horas antes para enviar recordatorio
-              </label>
-              <input
-                type="number"
-                value={settings.notifications.reminderHoursBefore}
-                onChange={(e) => setSettings({
-                  ...settings,
-                  notifications: { ...settings.notifications, reminderHoursBefore: parseInt(e.target.value) }
-                })}
-                className="input-field max-w-xs"
-                min="1"
-                max="72"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Políticas */}
-      {activeTab === 'policies' && (
-        <div className="card p-6">
-          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-            Políticas del Restaurante
-          </h2>
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
-                Horas antes para cancelar sin penalización
-              </label>
-              <input
-                type="number"
-                value={settings.policies.cancellationHours}
-                onChange={(e) => setSettings({
-                  ...settings,
-                  policies: { ...settings.policies, cancellationHours: parseInt(e.target.value) }
-                })}
-                className="input-field max-w-xs"
-                min="0"
-                max="72"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
-                Política de no-show
-              </label>
-              <textarea
-                value={settings.policies.noShowPolicy}
-                onChange={(e) => setSettings({
-                  ...settings,
-                  policies: { ...settings.policies, noShowPolicy: e.target.value }
-                })}
-                className="input-field"
-                rows={3}
-              />
-            </div>
-
-            <div className="space-y-3">
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={settings.policies.depositRequired}
-                  onChange={(e) => setSettings({
-                    ...settings,
-                    policies: { ...settings.policies, depositRequired: e.target.checked }
-                  })}
-                  className="w-4 h-4 text-blue-600 rounded"
-                />
-                <span className="text-sm text-[var(--text-primary)]">
-                  Requiere depósito para reservar
-                </span>
-              </label>
-
-              {settings.policies.depositRequired && (
-                <div className="ml-7">
-                  <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
-                    Monto del depósito (€)
-                  </label>
+              
+              <div className="space-y-3">
+                <label className="flex items-center gap-3 cursor-pointer">
                   <input
-                    type="number"
-                    value={settings.policies.depositAmount}
+                    type="checkbox"
+                    checked={settings.notifications?.emailEnabled || false}
                     onChange={(e) => setSettings({
                       ...settings,
-                      policies: { ...settings.policies, depositAmount: parseFloat(e.target.value) }
+                      notifications: {
+                        ...settings.notifications,
+                        emailEnabled: e.target.checked
+                      }
                     })}
-                    className="input-field max-w-xs"
-                    min="0"
-                    step="5"
+                    className="w-4 h-4 text-blue-600 rounded"
                   />
-                </div>
-              )}
+                  <span className="text-sm text-[var(--text-primary)]">
+                    Activar notificaciones por email
+                  </span>
+                </label>
+
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={settings.notifications?.sendConfirmationEmail || false}
+                    onChange={(e) => setSettings({
+                      ...settings,
+                      notifications: {
+                        ...settings.notifications,
+                        sendConfirmationEmail: e.target.checked
+                      }
+                    })}
+                    className="w-4 h-4 text-blue-600 rounded"
+                  />
+                  <span className="text-sm text-[var(--text-primary)]">
+                    Enviar email de confirmación al crear reservas
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
+              <h3 className="font-semibold text-amber-900 dark:text-amber-300 mb-2">
+                ⚠️ Funcionalidades Pendientes
+              </h3>
+              <div className="text-sm text-amber-800 dark:text-amber-200">
+                <p>Las siguientes funcionalidades están configuradas pero no están activas actualmente:</p>
+                <ul className="mt-2 ml-4 list-disc space-y-1">
+                  <li>Notificaciones por SMS</li>
+                  <li>Emails recordatorio automáticos</li>
+                  <li>Políticas de depósitos y cancelaciones</li>
+                  <li>Sistema de overbooking</li>
+                </ul>
+                <p className="mt-2">Estas funcionalidades se implementarán en futuras actualizaciones.</p>
+              </div>
             </div>
           </div>
         </div>
