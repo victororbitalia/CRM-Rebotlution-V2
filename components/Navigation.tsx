@@ -27,12 +27,12 @@ export default function Navigation() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-shadow">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-200">
                 <RestaurantIcon className="w-5 h-5 text-white" />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-[var(--text-primary)] leading-none">REBOTLUTION</h1>
-                <p className="text-xs text-[var(--text-secondary)] leading-none mt-0.5">Restaurant CRM</p>
+                <h1 className="text-lg font-bold text-text-primary leading-none">REBOTLUTION</h1>
+                <p className="text-xs text-text-secondary leading-none mt-0.5">Restaurant CRM</p>
               </div>
             </Link>
             
@@ -44,10 +44,10 @@ export default function Navigation() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+                    className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 flex items-center gap-2.5 ${
                       isActive
-                        ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
-                        : 'text-[var(--text-secondary)] hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:text-[var(--text-primary)]'
+                        ? 'bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-200 shadow-sm'
+                        : 'text-text-secondary hover:bg-surface hover:text-text-primary'
                     }`}
                   >
                     <Icon className="w-4 h-4" />

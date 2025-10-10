@@ -3,32 +3,108 @@
 @tailwind utilities;
 
 :root {
-  --primary: #1a73e8;
-  --primary-dark: #1557b0;
-  --secondary: #5f6368;
-  --success: #34a853;
-  --warning: #fbbc04;
-  --danger: #ea4335;
-  --background: #f8f9fa;
+  /* Primary Colors - Modern Blue Palette */
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --primary-light: #60a5fa;
+  --primary-50: #eff6ff;
+  --primary-100: #dbeafe;
+  --primary-900: #1e3a8a;
+  
+  /* Neutral Colors */
+  --secondary: #64748b;
+  --secondary-light: #94a3b8;
+  --secondary-dark: #475569;
+  
+  /* Status Colors */
+  --success: #10b981;
+  --success-light: #34d399;
+  --success-dark: #059669;
+  --success-50: #ecfdf5;
+  --success-100: #d1fae5;
+  
+  --warning: #f59e0b;
+  --warning-light: #fbbf24;
+  --warning-dark: #d97706;
+  --warning-50: #fffbeb;
+  --warning-100: #fef3c7;
+  
+  --danger: #ef4444;
+  --danger-light: #f87171;
+  --danger-dark: #dc2626;
+  --danger-50: #fef2f2;
+  --danger-100: #fee2e2;
+  
+  /* Surface Colors */
+  --background: #f8fafc;
   --surface: #ffffff;
-  --border: #dadce0;
-  --text-primary: #202124;
-  --text-secondary: #5f6368;
+  --surface-hover: #f1f5f9;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  
+  /* Text Colors */
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  
+  /* Shadow Colors */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary: #8ab4f8;
-    --primary-dark: #669df6;
-    --secondary: #9aa0a6;
-    --success: #81c995;
-    --warning: #fdd663;
-    --danger: #f28b82;
-    --background: #202124;
-    --surface: #292a2d;
-    --border: #3c4043;
-    --text-primary: #e8eaed;
-    --text-secondary: #9aa0a6;
+    /* Primary Colors - Dark Mode */
+    --primary: #60a5fa;
+    --primary-dark: #3b82f6;
+    --primary-light: #93c5fd;
+    --primary-50: #1e3a8a;
+    --primary-100: #1e40af;
+    --primary-900: #eff6ff;
+    
+    /* Neutral Colors */
+    --secondary: #94a3b8;
+    --secondary-light: #cbd5e1;
+    --secondary-dark: #64748b;
+    
+    /* Status Colors */
+    --success: #34d399;
+    --success-light: #6ee7b7;
+    --success-dark: #10b981;
+    --success-50: #064e3b;
+    --success-100: #065f46;
+    
+    --warning: #fbbf24;
+    --warning-light: #fcd34d;
+    --warning-dark: #f59e0b;
+    --warning-50: #451a03;
+    --warning-100: #78350f;
+    
+    --danger: #f87171;
+    --danger-light: #fca5a5;
+    --danger-dark: #ef4444;
+    --danger-50: #7f1d1d;
+    --danger-100: #991b1b;
+    
+    /* Surface Colors */
+    --background: #0f172a;
+    --surface: #1e293b;
+    --surface-hover: #334155;
+    --border: #334155;
+    --border-light: #475569;
+    
+    /* Text Colors */
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    /* Shadow Colors */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.25);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
   }
 }
 
@@ -46,18 +122,58 @@ body {
 
 @layer components {
   .btn-primary {
-    @apply bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white font-medium px-4 py-2 rounded-lg transition-colors;
+    @apply bg-[var(--primary)] hover:bg-[var(--primary-dark)] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2;
   }
   
   .btn-secondary {
-    @apply bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-lg transition-colors;
+    @apply bg-[var(--surface)] border border-[var(--border)] hover:bg-[var(--surface-hover)] text-[var(--text-primary)] font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2;
+  }
+  
+  .btn-success {
+    @apply bg-[var(--success)] hover:bg-[var(--success-dark)] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--success)] focus:ring-offset-2;
+  }
+  
+  .btn-warning {
+    @apply bg-[var(--warning)] hover:bg-[var(--warning-dark)] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--warning)] focus:ring-offset-2;
+  }
+  
+  .btn-danger {
+    @apply bg-[var(--danger)] hover:bg-[var(--danger-dark)] text-white font-medium px-4 py-2 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[var(--danger)] focus:ring-offset-2;
   }
   
   .card {
-    @apply bg-[var(--surface)] border border-[var(--border)] rounded-lg shadow-sm;
+    @apply bg-[var(--surface)] border border-[var(--border)] rounded-lg shadow-sm hover:shadow-md transition-all duration-200;
+  }
+  
+  .card-hover {
+    @apply card hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200;
   }
   
   .input-field {
-    @apply w-full px-3 py-2 border border-[var(--border)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--surface)] text-[var(--text-primary)];
+    @apply w-full px-3 py-2.5 border border-[var(--border)] rounded-lg focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent bg-[var(--surface)] text-[var(--text-primary)] placeholder-[var(--text-muted)] transition-all duration-200;
+  }
+  
+  .input-field-error {
+    @apply input-field border-[var(--danger)] focus:ring-[var(--danger)];
+  }
+  
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .badge-primary {
+    @apply badge bg-[var(--primary-100)] text-[var(--primary-800)] dark:bg-[var(--primary-900)] dark:text-[var(--primary-200)];
+  }
+  
+  .badge-success {
+    @apply badge bg-[var(--success-100)] text-[var(--success-800)] dark:bg-[var(--success-900)] dark:text-[var(--success-200)];
+  }
+  
+  .badge-warning {
+    @apply badge bg-[var(--warning-100)] text-[var(--warning-800)] dark:bg-[var(--warning-900)] dark:text-[var(--warning-200)];
+  }
+  
+  .badge-danger {
+    @apply badge bg-[var(--danger-100)] text-[var(--danger-800)] dark:bg-[var(--danger-900)] dark:text-[var(--danger-200)];
   }
 }

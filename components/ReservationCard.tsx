@@ -11,11 +11,11 @@ interface ReservationCardProps {
 
 export default function ReservationCard({ reservation, onStatusChange, onDelete, onUpdate }: ReservationCardProps) {
   const statusColors = {
-    pending: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400',
-    confirmed: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-400',
-    seated: 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400',
-    completed: 'bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-700 dark:text-gray-300',
-    cancelled: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400',
+    pending: 'bg-warning-100 text-warning-800 border-warning-200 dark:bg-warning-900/30 dark:text-warning-200',
+    confirmed: 'bg-primary-100 text-primary-800 border-primary-200 dark:bg-primary-900/30 dark:text-primary-200',
+    seated: 'bg-success-100 text-success-800 border-success-200 dark:bg-success-900/30 dark:text-success-200',
+    completed: 'bg-gray-100 text-gray-700 border-gray-200 dark:bg-gray-700 dark:text-gray-300',
+    cancelled: 'bg-danger-100 text-danger-800 border-danger-200 dark:bg-danger-900/30 dark:text-danger-200',
   };
 
   const statusLabels = {
@@ -27,11 +27,11 @@ export default function ReservationCard({ reservation, onStatusChange, onDelete,
   };
 
   const borderColors = {
-    pending: 'border-l-amber-500',
-    confirmed: 'border-l-blue-500',
-    seated: 'border-l-green-500',
+    pending: 'border-l-warning',
+    confirmed: 'border-l-primary',
+    seated: 'border-l-success',
     completed: 'border-l-gray-400',
-    cancelled: 'border-l-red-500',
+    cancelled: 'border-l-danger',
   };
 
   const [isEditing, setIsEditing] = useState(false);

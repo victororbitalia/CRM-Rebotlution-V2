@@ -88,50 +88,51 @@ export default function SettingsPage() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" style={{ backgroundColor: '#f9fafb', minHeight: '100vh' }}>
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-[var(--text-primary)] mb-1">
-            Configuración del Restaurante
-          </h1>
-          <p className="text-sm text-[var(--text-secondary)]">
-            Ajusta los parámetros según las necesidades de tu negocio
-          </p>
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-text-primary mb-1">
+              Configuración del Restaurante
+            </h1>
+            <p className="text-sm text-text-secondary">
+              Ajusta los parámetros según las necesidades de tu negocio
+            </p>
+          </div>
+          <button
+            onClick={handleSave}
+            className="btn-primary flex items-center gap-2"
+          >
+            {saved ? (
+              <>
+                <CheckIcon className="w-4 h-4" />
+                Guardado
+              </>
+            ) : (
+              'Guardar Cambios'
+            )}
+          </button>
         </div>
-        <button
-          onClick={handleSave}
-          className="btn-primary flex items-center gap-2"
-        >
-          {saved ? (
-            <>
-              <CheckIcon className="w-4 h-4" />
-              Guardado
-            </>
-          ) : (
-            'Guardar Cambios'
-          )}
-        </button>
-      </div>
 
-      {/* Tabs */}
-      <div className="card mb-6 overflow-hidden">
-        <div className="flex overflow-x-auto">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`flex-1 min-w-[120px] px-4 py-3 text-sm font-medium transition-colors border-b-2 ${
-                activeTab === tab.id
-                  ? 'border-blue-500 text-blue-600 bg-blue-50 dark:bg-blue-900/20'
-                  : 'border-transparent text-[var(--text-secondary)] hover:bg-gray-50 dark:hover:bg-gray-800'
-              }`}
-            >
-              <span className="mr-2">{tab.icon}</span>
-              {tab.label}
-            </button>
-          ))}
+        {/* Tabs */}
+        <div className="card mb-6 overflow-hidden">
+          <div className="flex overflow-x-auto">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`flex-1 min-w-[120px] px-4 py-3 text-sm font-medium transition-all duration-200 border-b-2 ${
+                  activeTab === tab.id
+                    ? 'border-primary text-primary bg-primary-50 dark:bg-primary-900/30'
+                    : 'border-transparent text-text-secondary hover:bg-surface hover:text-text-primary'
+                }`}
+              >
+                <span className="mr-2">{tab.icon}</span>
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
       {/* General */}
       {activeTab === 'general' && (
@@ -697,6 +698,7 @@ export default function SettingsPage() {
           </a>
         </div>
       )}
+      </div>
     </div>
   );
 }

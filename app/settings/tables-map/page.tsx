@@ -207,14 +207,8 @@ export default function TablesMapPage() {
     : [];
 
   return (
-    <div className="tables-map-page" style={{ 
-      width: '100%',
-      maxWidth: '1200px',
-      margin: '0 auto',
-      padding: '20px',
-      backgroundColor: '#f9fafb',
-      minHeight: '100vh'
-    }}>
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Cabecera de la página */}
       <div className="page-header" style={{ 
         display: 'flex', 
@@ -474,6 +468,7 @@ export default function TablesMapPage() {
           )}
         </div>
       )}
+      </div>
     </div>
   );
 }
