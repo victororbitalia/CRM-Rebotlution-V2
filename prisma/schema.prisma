@@ -1,6 +1,16 @@
 // Este es un ejemplo de cómo se vería el esquema ampliado
 // Deberías integrar estos cambios en tu archivo schema.prisma existente
 
+// Configuración de la base de datos
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
 model Table {
   id          String   @id @default(cuid())
   number      Int
