@@ -228,8 +228,8 @@ export default function RestaurantMap({
         position: 'absolute',
         left: '10px',
         bottom: '10px',
-        backgroundColor: '#fef3c7',
-        border: '1px dashed #f59e0b',
+        backgroundColor: '#1e293b',
+        border: '1px dashed #334155',
         borderRadius: '8px',
         padding: '8px',
         maxWidth: '200px',
@@ -258,11 +258,11 @@ export default function RestaurantMap({
       <div 
         ref={mapRef}
         className="map-canvas" 
-        style={{ 
-          width: '100%', 
-          height: '600px', 
-          backgroundColor: '#f9fafb', 
-          border: '1px solid #e5e7eb', 
+        style={{
+          width: '100%',
+          height: '600px',
+          backgroundColor: '#0f172a',
+          border: '1px solid #334155',
           borderRadius: '8px',
           position: 'relative',
           overflow: 'hidden'
