@@ -447,7 +447,9 @@ export async function POST(request: NextRequest) {
 
     console.log('Reserva creada exitosamente:', newReservation);
     
-    // Enviar email de confirmación si está habilitado
+    // Email de confirmación desactivado por defecto
+    // Para activar, descomentar el siguiente bloque y habilitar en ajustes
+    /*
     try {
       if (settings.notifications?.emailEnabled && settings.notifications?.sendConfirmationEmail) {
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
@@ -472,6 +474,7 @@ export async function POST(request: NextRequest) {
       console.error('Error al procesar envío de email:', emailError);
       // No fallamos la creación de reserva si el email falla
     }
+    */
     
     return NextResponse.json({ success: true, data: newReservation, message: 'Reserva creada exitosamente' }, { status: 201 });
   } catch (error) {

@@ -9,6 +9,20 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState<RestaurantSettings>(defaultSettings);
   const [activeTab, setActiveTab] = useState<'general' | 'reservations' | 'tables'>('general');
   const [saved, setSaved] = useState(false);
+  
+  // Estados para controlar los desplegables
+  const [expandedSections, setExpandedSections] = useState({
+    reservations: true,
+    schedule: true,
+    capacity: true,
+  });
+  
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
 
   // Cargar ajustes desde API al montar
   useEffect(() => {
@@ -178,10 +192,25 @@ export default function SettingsPage() {
       {/* Reservas */}
       {activeTab === 'reservations' && (
         <div className="space-y-6">
-          <div className="card p-6">
-            <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-              Configuración de Reservas
-            </h2>
+          <div className="card overflow-hidden">
+            <button
+              onClick={() => toggleSection('reservations')}
+              className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+            >
+              <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+                Configuración de Reservas
+              </h2>
+              <svg
+                className={`w-5 h-5 text-[var(--text-secondary)] transition-transform ${expandedSections.reservations ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {expandedSections.reservations && (
+              <div className="px-6 pb-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
@@ -313,13 +342,30 @@ export default function SettingsPage() {
                 </span>
               </label>
             </div>
+              </div>
+            )}
           </div>
 
           {/* Horarios de apertura - Integrado en la pestaña de reservas */}
-          <div className="card p-6">
-            <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-              Horarios de Apertura
-            </h2>
+          <div className="card overflow-hidden">
+            <button
+              onClick={() => toggleSection('schedule')}
+              className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+            >
+              <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+                Horarios de Apertura
+              </h2>
+              <svg
+                className={`w-5 h-5 text-[var(--text-secondary)] transition-transform ${expandedSections.schedule ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {expandedSections.schedule && (
+              <div className="px-6 pb-6">
             <p className="text-sm text-[var(--text-secondary)] mb-6">
               Define los días y horas de funcionamiento del restaurante. Las reservas solo se permitirán dentro de estos horarios.
             </p>
@@ -393,14 +439,31 @@ export default function SettingsPage() {
                   )}
                 </div>
               ))}
-            </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Reglas por día de la semana */}
-          <div className="card p-6">
-            <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
-              Configuración por Día de la Semana
-            </h2>
+          <div className="card overflow-hidden">
+            <button
+              onClick={() => toggleSection('capacity')}
+              className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+            >
+              <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+                Configuración de Capacidad
+              </h2>
+              <svg
+                className={`w-5 h-5 text-[var(--text-secondary)] transition-transform ${expandedSections.capacity ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {expandedSections.capacity && (
+              <div className="px-6 pb-6">
             <p className="text-sm text-[var(--text-secondary)] mb-6">
               Ajusta la capacidad y límites según el día. Útil para reducir capacidad entre semana y aumentarla los fines de semana.
             </p>
@@ -450,7 +513,9 @@ export default function SettingsPage() {
                   </div>
                 </div>
               ))}
-            </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
