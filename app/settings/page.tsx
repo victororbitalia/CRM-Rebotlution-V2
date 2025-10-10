@@ -7,7 +7,7 @@ import { CheckIcon } from '@/components/Icons';
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState<RestaurantSettings>(defaultSettings);
-  const [activeTab, setActiveTab] = useState<'general' | 'reservations' | 'tables'>('general');
+  const [activeTab, setActiveTab] = useState<'general' | 'reservations' | 'tables' | 'tables-map'>('general');
   const [saved, setSaved] = useState(false);
   
   // Estados para controlar los desplegables
@@ -74,6 +74,7 @@ export default function SettingsPage() {
     { id: 'general', label: 'General', icon: '🏢' },
     { id: 'reservations', label: 'Reservas', icon: '📅' },
     { id: 'tables', label: 'Mesas', icon: '🪑' },
+    { id: 'tables-map', label: 'Mapa', icon: '🗺️' },
   ];
 
   const daysOfWeek = [
@@ -665,6 +666,35 @@ export default function SettingsPage() {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Mapa de Mesas - Redirección a la página dedicada */}
+      {activeTab === 'tables-map' && (
+        <div className="card p-6 text-center">
+          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+            Mapa Visual de Mesas
+          </h2>
+          <p className="text-sm text-[var(--text-secondary)] mb-6">
+            Organiza visualmente tu restaurante con nuestro mapa interactivo de mesas.
+          </p>
+          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800 mb-6">
+            <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">
+              🗺️ Características del Mapa
+            </h3>
+            <div className="text-sm text-blue-800 dark:text-blue-200 space-y-1">
+              <p>• Arrastra y suelta mesas para organizar tu restaurante</p>
+              <p>• Crea diferentes zonas (interior, terraza, etc.)</p>
+              <p>• Visualiza el estado de las mesas en tiempo real</p>
+              <p>• Gestiona las reservas de forma visual</p>
+            </div>
+          </div>
+          <a
+            href="/settings/tables-map"
+            className="btn-primary inline-block"
+          >
+            Abrir Mapa de Mesas
+          </a>
         </div>
       )}
     </div>

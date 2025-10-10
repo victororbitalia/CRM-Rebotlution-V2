@@ -14,7 +14,20 @@ export async function GET(request: NextRequest) {
     if (available !== null) where.isAvailable = available === 'true';
     if (minCapacity) where.capacity = { gte: parseInt(minCapacity) };
 
-    const data = await prisma.table.findMany({ where, orderBy: { number: 'asc' } });
+    const data = await prisma.table.findMany({
+      where,
+      orderBy: { number: 'asc' },
+      include: {
+        zone: {
+          select: {
+            id: true,
+            name: true,
+            type: true,
+            color: true,
+          }
+        }
+      }
+    });
     return NextResponse.json({ success: true, data, count: data.length });
   } catch (error) {
     return NextResponse.json(
@@ -40,7 +53,22 @@ export async function POST(request: NextRequest) {
         capacity: body.capacity,
         location: body.location,
         isAvailable: body.isAvailable ?? true,
+        position: body.position || { x: 0, y: 0 },
+        size: body.size || { width: 60, height: 60 },
+        shape: body.shape || 'square',
+        status: 'available',
+        zoneId: body.zoneId,
       },
+      include: {
+        zone: {
+          select: {
+            id: true,
+            name: true,
+            type: true,
+            color: true,
+          }
+        }
+      }
     });
     return NextResponse.json({ success: true, data: created }, { status: 201 });
   } catch (error) {
