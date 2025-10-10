@@ -1,0 +1,178 @@
+{
+  "main": {
+    "id": "018b49a33169a2ff",
+    "type": "split",
+    "children": [
+      {
+        "id": "7a6b0a7d5a80125e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ec8b2f7574165d01",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "docs/Guia_Proyecto_CRM_Rebotlution.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Guia_Proyecto_CRM_Rebotlution"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "699126d4b9734f04",
+    "type": "split",
+    "children": [
+      {
+        "id": "8cdbf85143fc24df",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "04c6600e9f3659bf",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de archivos"
+            }
+          },
+          {
+            "id": "2a2e36a6552b59f1",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Buscar"
+            }
+          },
+          {
+            "id": "0048a63b636e5ee5",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "d00fd6d6c01c9562",
+    "type": "split",
+    "children": [
+      {
+        "id": "36b9aaabf901665f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8e2213accea3491e",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "docs/Guia_Proyecto_CRM_Rebotlution.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Enlaces entrantes de Guia_Proyecto_CRM_Rebotlution"
+            }
+          },
+          {
+            "id": "5531cf2d04661086",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "docs/Guia_Proyecto_CRM_Rebotlution.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Enlaces salientes de Guia_Proyecto_CRM_Rebotlution"
+            }
+          },
+          {
+            "id": "5c979669b8457657",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "365aa0dc262a6398",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "docs/Guia_Proyecto_CRM_Rebotlution.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Esquema de Guia_Proyecto_CRM_Rebotlution"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir selector rápido": false,
+      "graph:Abrir vista gráfica": false,
+      "canvas:Crear nuevo lienzo": false,
+      "daily-notes:Abrir la nota de hoy": false,
+      "templates:Insertar plantilla": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Crear nueva base": false
+    }
+  },
+  "active": "ec8b2f7574165d01",
+  "lastOpenFiles": [
+    "DEPLOYMENT.md",
+    "CONFIGURACION_PUERTO_EASYPANEL.md",
+    "API_DOCUMENTATION.md"
+  ]
+}

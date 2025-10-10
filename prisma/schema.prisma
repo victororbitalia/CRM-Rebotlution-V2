@@ -1,0 +1,56 @@
+// Datasource and generator
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Models
+model Table {
+  id         String   @id @default(cuid())
+  number     Int
+  capacity   Int
+  location   String   // 'interior' | 'exterior' | 'terraza' | 'privado'
+  isAvailable Boolean  @default(true)
+  reservations Reservation[]
+
+  @@unique([number])
+}
+
+model Reservation {
+  id              String   @id @default(cuid())
+  customerName    String
+  customerEmail   String
+  customerPhone   String
+  date            DateTime
+  time            String
+  guests          Int
+  status          ReservationStatus @default(pending)
+  specialRequests String?
+  preferredLocation String? // 'interior' | 'exterior' | 'terraza' | 'privado' | 'any'
+  createdAt       DateTime @default(now())
+
+  // Relation to Table
+  tableId String?
+  table   Table?  @relation(fields: [tableId], references: [id])
+}
+
+model RestaurantSettings {
+  id        String   @id @default("settings-singleton")
+  // Simplified settings structure as JSON for flexibility
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+enum ReservationStatus {
+  pending
+  confirmed
+  seated
+  completed
+  cancelled
+}
+
+

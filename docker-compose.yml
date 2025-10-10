@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database (OBLIGATORIO)
+  postgres:
+    image: postgres:15-alpine
+    container_name: cofradia-postgres
+    environment:
+      POSTGRES_USER: cofradia
+      POSTGRES_PASSWORD: cofradia_password_2024
+      POSTGRES_DB: cofradia_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cofradia -d cofradia_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Aplicación Next.js
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cofradia-crm
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - NEXT_TELEMETRY_DISABLED=1
+      - DATABASE_URL=postgresql://cofradia:cofradia_password_2024@postgres:5432/cofradia_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
