@@ -49,11 +49,39 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    
+    // Validar que las dimensiones sean correctas
+    if (!dimensions.width || !dimensions.height || dimensions.width < 100 || dimensions.height < 100) {
+      return NextResponse.json(
+        { success: false, error: 'Las dimensiones deben ser válidas (ancho y alto mayores a 100px)' },
+        { status: 400 }
+      );
+    }
+    
+    // Validar que la posición sea correcta
+    if (typeof position.x !== 'number' || typeof position.y !== 'number' || position.x < 0 || position.y < 0) {
+      return NextResponse.json(
+        { success: false, error: 'La posición debe ser válida (coordenadas x, y mayores o iguales a 0)' },
+        { status: 400 }
+      );
+    }
+    
+    // Verificar si ya existe una zona con ese nombre
+    const existingZone = await prisma.zone.findFirst({
+      where: { name: name.trim() }
+    });
+    
+    if (existingZone) {
+      return NextResponse.json(
+        { success: false, error: `Ya existe una zona con el nombre "${name}"` },
+        { status: 409 }
+      );
+    }
 
     // Crear nueva zona
     const newZone = await prisma.zone.create({
       data: {
-        name,
+        name: name.trim(),
         type,
         dimensions,
         position,
@@ -61,15 +89,15 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       data: newZone,
       message: 'Zona creada exitosamente'
     }, { status: 201 });
   } catch (error) {
     console.error('Error al crear zona:', error);
     return NextResponse.json(
-      { success: false, error: 'Error al crear zona' },
+      { success: false, error: 'Error al crear zona: ' + (error instanceof Error ? error.message : 'Error desconocido') },
       { status: 500 }
     );
   }

@@ -2,14 +2,31 @@
 
 import { useRestaurant } from '@/context/RestaurantContext';
 import { TableIcon, LocationIcon } from '@/components/Icons';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { Table } from '@/types';
 
 export default function TablesPage() {
-  const { tables, reservations, createTable, toggleTableAvailability } = useRestaurant();
+  const { tables, reservations, createTable, toggleTableAvailability, refreshTables } = useRestaurant();
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [newTable, setNewTable] = useState({ number: '', capacity: '', location: 'interior' as Table['location'] });
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  
+  // Refrescar mesas periódicamente para mantener sincronización con el mapa
+  useEffect(() => {
+    const refreshInterval = setInterval(async () => {
+      try {
+        setIsRefreshing(true);
+        await refreshTables();
+      } catch (error) {
+        console.error('Error al refrescar mesas:', error);
+      } finally {
+        setIsRefreshing(false);
+      }
+    }, 30000); // Refrescar cada 30 segundos
+    
+    return () => clearInterval(refreshInterval);
+  }, [refreshTables]);
 
   const tablesByLocation = useMemo(() => {
     const grouped: Record<string, Table[]> = {
@@ -79,13 +96,37 @@ export default function TablesPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[var(--text-primary)] mb-1">
-          Gestión de Mesas
-        </h1>
-        <p className="text-sm text-[var(--text-secondary)]">
-          Visualiza y gestiona la distribución de mesas del restaurante
-        </p>
+      <div className="mb-8 flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold text-[var(--text-primary)] mb-1">
+            Gestión de Mesas
+          </h1>
+          <p className="text-sm text-[var(--text-secondary)]">
+            Visualiza y gestiona la distribución de mesas del restaurante
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          {isRefreshing && (
+            <span className="text-xs text-[var(--text-secondary)]">
+              Sincronizando...
+            </span>
+          )}
+          <button
+            onClick={async () => {
+              try {
+                setIsRefreshing(true);
+                await refreshTables();
+              } catch (error) {
+                console.error('Error al refrescar mesas:', error);
+              } finally {
+                setIsRefreshing(false);
+              }
+            }}
+            className="px-3 py-1 text-xs bg-blue-50 text-blue-600 border border-blue-200 rounded hover:bg-blue-100"
+          >
+            Refrescar
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-6">
@@ -324,12 +365,20 @@ export default function TablesPage() {
             className="btn-primary"
             onClick={async () => {
               if (!newTable.number || !newTable.capacity) return;
-              await createTable({
-                number: parseInt(newTable.number, 10),
-                capacity: parseInt(newTable.capacity, 10),
-                location: newTable.location,
-              });
-              setNewTable({ number: '', capacity: '', location: 'interior' });
+              try {
+                await createTable({
+                  number: parseInt(newTable.number, 10),
+                  capacity: parseInt(newTable.capacity, 10),
+                  location: newTable.location,
+                });
+                setNewTable({ number: '', capacity: '', location: 'interior' });
+                
+                // Refrescar las mesas para asegurar sincronización
+                await refreshTables();
+              } catch (error) {
+                console.error('Error al crear mesa:', error);
+                alert('Error al crear la mesa: ' + (error instanceof Error ? error.message : 'Error desconocido'));
+              }
             }}
           >
             Crear Mesa

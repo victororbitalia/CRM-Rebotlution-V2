@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Reservation, Table } from '@/types';
+import { TableFormData, ZoneFormData } from '@/types/map';
 import { mockReservations, mockTables } from '@/lib/mockData';
 
 interface RestaurantContextType {
@@ -13,7 +14,15 @@ interface RestaurantContextType {
   deleteReservation: (id: string) => Promise<void>;
   getReservationsByDate: (date: Date) => Reservation[];
   createTable: (data: Pick<Table, 'number' | 'capacity' | 'location'> & { isAvailable?: boolean }) => Promise<void>;
+  createTableWithPosition: (data: TableFormData) => Promise<void>;
+  updateTable: (id: string, updates: Partial<Table>) => Promise<void>;
+  updateTablePosition: (id: string, position: { x: number; y: number }, zoneId?: string) => Promise<void>;
   toggleTableAvailability: (id: string, isAvailable: boolean) => Promise<void>;
+  deleteTable: (id: string) => Promise<void>;
+  createZone: (data: ZoneFormData) => Promise<void>;
+  updateZone: (id: string, updates: Partial<ZoneFormData>) => Promise<void>;
+  deleteZone: (id: string) => Promise<void>;
+  refreshTables: () => Promise<void>;
 }
 
 const RestaurantContext = createContext<RestaurantContextType | undefined>(undefined);
@@ -151,6 +160,89 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
     setTables(prev => [...prev, json.data as Table]);
   };
 
+  const createTableWithPosition = async (data: TableFormData) => {
+    const res = await fetch('/api/tables', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+    if (!res.ok || !json?.success) throw new Error(json?.error || 'No se pudo crear la mesa');
+    setTables(prev => [...prev, json.data as Table]);
+  };
+
+  const updateTable = async (id: string, updates: Partial<Table>) => {
+    const res = await fetch(`/api/tables/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates),
+    });
+    const json = await res.json();
+    if (!res.ok || !json?.success) throw new Error(json?.error || 'No se pudo actualizar la mesa');
+    setTables(prev => prev.map(t => (t.id === id ? (json.data as Table) : t)));
+  };
+
+  const updateTablePosition = async (id: string, position: { x: number; y: number }, zoneId?: string) => {
+    const res = await fetch(`/api/tables/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ position, zoneId }),
+    });
+    const json = await res.json();
+    if (!res.ok || !json?.success) throw new Error(json?.error || 'No se pudo actualizar la posición de la mesa');
+    setTables(prev => prev.map(t => (t.id === id ? (json.data as Table) : t)));
+  };
+
+  const deleteTable = async (id: string) => {
+    const res = await fetch(`/api/tables/${id}`, {
+      method: 'DELETE',
+    });
+    const json = await res.json();
+    if (!res.ok || !json?.success) throw new Error(json?.error || 'No se pudo eliminar la mesa');
+    setTables(prev => prev.filter(t => t.id !== id));
+  };
+
+  const createZone = async (data: ZoneFormData) => {
+    const res = await fetch('/api/zones', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+    if (!res.ok || !json?.success) throw new Error(json?.error || 'No se pudo crear la zona');
+    // Las zonas se gestionan en el componente de mapa, pero aquí podríamos mantener un estado si fuera necesario
+  };
+
+  const updateZone = async (id: string, updates: Partial<ZoneFormData>) => {
+    const res = await fetch(`/api/zones/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates),
+    });
+    const json = await res.json();
+    if (!res.ok || !json?.success) throw new Error(json?.error || 'No se pudo actualizar la zona');
+  };
+
+  const deleteZone = async (id: string) => {
+    const res = await fetch(`/api/zones/${id}`, {
+      method: 'DELETE',
+    });
+    const json = await res.json();
+    if (!res.ok || !json?.success) throw new Error(json?.error || 'No se pudo eliminar la zona');
+  };
+
+  const refreshTables = async () => {
+    try {
+      const res = await fetch('/api/tables', { cache: 'no-store' });
+      const json = await res.json();
+      if (json?.success && Array.isArray(json.data)) {
+        setTables(json.data);
+      }
+    } catch (e) {
+      console.error('Error al refrescar mesas:', e);
+    }
+  };
+
   const toggleTableAvailability = async (id: string, isAvailable: boolean) => {
     const res = await fetch(`/api/tables/${id}`, {
       method: 'PUT',
@@ -180,7 +272,15 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
         deleteReservation,
         getReservationsByDate,
         createTable,
+        createTableWithPosition,
+        updateTable,
+        updateTablePosition,
         toggleTableAvailability,
+        deleteTable,
+        createZone,
+        updateZone,
+        deleteZone,
+        refreshTables,
       }}
     >
       {children}

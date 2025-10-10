@@ -4,16 +4,18 @@ import { useState, useEffect } from 'react';
 import { Table, Zone, TableFormData, ZoneFormData, Reservation } from '@/types/map';
 import RestaurantMap from '@/components/RestaurantMap';
 import MapEditTools from '@/components/MapEditTools';
+import { useRestaurant } from '@/context/RestaurantContext';
 
 export default function TablesMapPage() {
   const [viewMode, setViewMode] = useState<'edit' | 'view'>('view');
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedTableId, setSelectedTableId] = useState<string | null>(null);
   const [zones, setZones] = useState<Zone[]>([]);
-  const [tables, setTables] = useState<Table[]>([]);
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  const { tables, createTableWithPosition, updateTablePosition, updateTable, deleteTable, createZone, deleteZone, refreshTables } = useRestaurant();
 
   // Cargar datos iniciales
   useEffect(() => {
@@ -29,36 +31,12 @@ export default function TablesMapPage() {
           setZones(zonesData.data);
         }
         
-        // Cargar mesas
-        const tablesResponse = await fetch('/api/tables');
-        const tablesData = await tablesResponse.json();
-        if (tablesData.success) {
-          setTables(tablesData.data);
-        }
-        
         // Cargar reservas para la fecha seleccionada
         if (selectedDate) {
           const reservationsResponse = await fetch(`/api/reservations?date=${selectedDate}`);
           const reservationsData = await reservationsResponse.json();
           if (reservationsData.success) {
             setReservations(reservationsData.data);
-            
-            // Actualizar estado de las mesas según las reservas
-            const updatedTables = tablesData.data.map((table: Table) => {
-              const hasReservation = reservationsData.data.some(
-                (r: Reservation) => r.tableId === table.id && r.status !== 'cancelled'
-              );
-              
-              return {
-                ...table,
-                status: hasReservation ? 'reserved' : 'available',
-                reservationId: hasReservation 
-                  ? reservationsData.data.find((r: Reservation) => r.tableId === table.id)?.id 
-                  : undefined,
-              };
-            });
-            
-            setTables(updatedTables);
           }
         }
       } catch (err) {
@@ -71,76 +49,83 @@ export default function TablesMapPage() {
     
     loadData();
   }, [selectedDate]);
+  
+  // Refrescar mesas cuando cambian en el contexto
+  useEffect(() => {
+    if (reservations.length > 0) {
+      // Actualizar estado de las mesas según las reservas
+      const updatedTables = tables.map((table: Table) => {
+        const hasReservation = reservations.some(
+          (r: Reservation) => r.tableId === table.id && r.status !== 'cancelled'
+        );
+        
+        return {
+          ...table,
+          status: hasReservation ? 'reserved' : 'available',
+          reservationId: hasReservation
+            ? reservations.find((r: Reservation) => r.tableId === table.id)?.id
+            : undefined,
+        };
+      });
+      
+      // Actualizar el estado local con las mesas modificadas
+      // (esto no afecta al contexto, solo a la visualización en el mapa)
+    }
+  }, [tables, reservations]);
 
   // Manejar cambio de fecha
   const handleDateChange = (date: string) => {
     setSelectedDate(date);
   };
 
-  // Manejar actualización de una mesa
+  // Manejar actualización de una mesa (posición y zona)
   const handleTableUpdate = async (tableId: string, updates: Partial<Table>) => {
     try {
-      const response = await fetch(`/api/tables/${tableId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updates),
-      });
-      
-      const data = await response.json();
-      if (data.success) {
-        setTables(prevTables => 
-          prevTables.map(table => 
-            table.id === tableId ? { ...table, ...updates } : table
-          )
+      if (updates.position !== undefined || updates.zoneId !== undefined) {
+        await updateTablePosition(
+          tableId,
+          updates.position || { x: 0, y: 0 },
+          updates.zoneId
         );
       } else {
-        setError(data.error || 'Error al actualizar la mesa');
+        // Para otras actualizaciones, usar el método genérico
+        await updateTable(tableId, updates);
       }
+      
+      // Refrescar las mesas para obtener los datos actualizados
+      await refreshTables();
     } catch (err) {
       console.error('Error al actualizar mesa:', err);
-      setError('Error al actualizar la mesa');
+      setError(err instanceof Error ? err.message : 'Error al actualizar la mesa');
     }
   };
 
   // Manejar adición de una nueva mesa
   const handleAddTable = async (tableData: TableFormData) => {
     try {
-      const response = await fetch('/api/tables', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(tableData),
-      });
-      
-      const data = await response.json();
-      if (data.success) {
-        setTables(prevTables => [...prevTables, data.data]);
-      } else {
-        setError(data.error || 'Error al crear la mesa');
-      }
+      await createTableWithPosition(tableData);
+      // Refrescar las mesas para obtener los datos actualizados
+      await refreshTables();
     } catch (err) {
       console.error('Error al crear mesa:', err);
-      setError('Error al crear la mesa');
+      setError(err instanceof Error ? err.message : 'Error al crear la mesa');
     }
   };
 
   // Manejar adición de una nueva zona
   const handleAddZone = async (zoneData: ZoneFormData) => {
     try {
-      const response = await fetch('/api/zones', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(zoneData),
-      });
+      await createZone(zoneData);
       
-      const data = await response.json();
-      if (data.success) {
-        setZones(prevZones => [...prevZones, data.data]);
-      } else {
-        setError(data.error || 'Error al crear la zona');
+      // Recargar zonas
+      const zonesResponse = await fetch('/api/zones');
+      const zonesData = await zonesResponse.json();
+      if (zonesData.success) {
+        setZones(zonesData.data);
       }
     } catch (err) {
       console.error('Error al crear zona:', err);
-      setError('Error al crear la zona');
+      setError(err instanceof Error ? err.message : 'Error al crear la zona');
     }
   };
 
@@ -149,20 +134,11 @@ export default function TablesMapPage() {
     if (!confirm('¿Estás seguro de que deseas eliminar esta mesa?')) return;
     
     try {
-      const response = await fetch(`/api/tables/${tableId}`, {
-        method: 'DELETE',
-      });
-      
-      const data = await response.json();
-      if (data.success) {
-        setTables(prevTables => prevTables.filter(table => table.id !== tableId));
-        setSelectedTableId(null);
-      } else {
-        setError(data.error || 'Error al eliminar la mesa');
-      }
+      await deleteTable(tableId);
+      setSelectedTableId(null);
     } catch (err) {
       console.error('Error al eliminar mesa:', err);
-      setError('Error al eliminar la mesa');
+      setError(err instanceof Error ? err.message : 'Error al eliminar la mesa');
     }
   };
 
@@ -171,28 +147,20 @@ export default function TablesMapPage() {
     if (!confirm('¿Estás seguro de que deseas eliminar esta zona?')) return;
     
     try {
-      const response = await fetch(`/api/zones/${zoneId}`, {
-        method: 'DELETE',
-      });
+      await deleteZone(zoneId);
       
-      const data = await response.json();
-      if (data.success) {
-        setZones(prevZones => prevZones.filter(zone => zone.id !== zoneId));
-        
-        // Actualizar mesas que estaban en esta zona
-        setTables(prevTables => 
-          prevTables.map(table => 
-            table.zoneId === zoneId 
-              ? { ...table, zoneId: undefined, location: 'interior' }
-              : table
-          )
-        );
-      } else {
-        setError(data.error || 'Error al eliminar la zona');
+      // Recargar zonas
+      const zonesResponse = await fetch('/api/zones');
+      const zonesData = await zonesResponse.json();
+      if (zonesData.success) {
+        setZones(zonesData.data);
       }
+      
+      // Refrescar mesas para actualizar las que estaban en esta zona
+      await refreshTables();
     } catch (err) {
       console.error('Error al eliminar zona:', err);
-      setError('Error al eliminar la zona');
+      setError(err instanceof Error ? err.message : 'Error al eliminar la zona');
     }
   };
 

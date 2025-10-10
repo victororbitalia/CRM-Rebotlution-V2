@@ -48,16 +48,87 @@ export async function PUT(
       );
     }
 
+    // Validar posición si se proporciona
+    if (body.position !== undefined) {
+      if (!body.position || typeof body.position.x !== 'number' || typeof body.position.y !== 'number') {
+        return NextResponse.json(
+          { success: false, error: 'La posición debe ser un objeto con coordenadas x, y numéricas' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validar tamaño si se proporciona
+    if (body.size !== undefined) {
+      if (!body.size || typeof body.size.width !== 'number' || typeof body.size.height !== 'number') {
+        return NextResponse.json(
+          { success: false, error: 'El tamaño debe ser un objeto con width y height numéricos' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validar forma si se proporciona
+    if (body.shape !== undefined) {
+      const validShapes = ['square', 'rectangle', 'circle'];
+      if (!validShapes.includes(body.shape)) {
+        return NextResponse.json(
+          { success: false, error: 'La forma debe ser: square, rectangle o circle' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validar ubicación si se proporciona
+    if (body.location !== undefined) {
+      const validLocations = ['interior', 'terraza', 'exterior', 'privado'];
+      if (!validLocations.includes(body.location)) {
+        return NextResponse.json(
+          { success: false, error: 'La ubicación debe ser: interior, terraza, exterior o privado' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validar zona si se proporciona
+    if (body.zoneId !== undefined && body.zoneId !== null) {
+      if (body.zoneId !== null) {
+        const zoneExists = await prisma.zone.findUnique({ where: { id: body.zoneId } });
+        if (!zoneExists) {
+          return NextResponse.json(
+            { success: false, error: 'La zona especificada no existe' },
+            { status: 400 }
+          );
+        }
+      }
+    }
+
     const updated = await prisma.table.update({
       where: { id: params.id },
       data: {
-        isAvailable: body.isAvailable !== undefined ? body.isAvailable : undefined,
+        ...(body.isAvailable !== undefined && { isAvailable: body.isAvailable }),
+        ...(body.position !== undefined && { position: body.position }),
+        ...(body.size !== undefined && { size: body.size }),
+        ...(body.shape !== undefined && { shape: body.shape }),
+        ...(body.location !== undefined && { location: body.location }),
+        ...(body.zoneId !== undefined && { zoneId: body.zoneId }),
       },
+      include: {
+        zone: {
+          select: {
+            id: true,
+            name: true,
+            type: true,
+            color: true,
+          }
+        }
+      }
     });
     return NextResponse.json({ success: true, data: updated, message: 'Mesa actualizada exitosamente' });
   } catch (error) {
+    console.error('Error al actualizar mesa:', error);
     return NextResponse.json(
-      { success: false, error: 'Error al actualizar la mesa' },
+      { success: false, error: 'Error al actualizar la mesa: ' + (error instanceof Error ? error.message : 'Error desconocido') },
       { status: 500 }
     );
   }

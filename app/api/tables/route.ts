@@ -41,12 +41,50 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    
+    // Validaciones mejoradas
     if (!body.number || !body.capacity || !body.location) {
       return NextResponse.json(
-        { success: false, error: 'Faltan campos: number, capacity, location' },
+        { success: false, error: 'Faltan campos requeridos: number, capacity, location' },
         { status: 400 }
       );
     }
+    
+    // Validar tipos de datos
+    if (typeof body.number !== 'number' || isNaN(body.number)) {
+      return NextResponse.json(
+        { success: false, error: 'El número de mesa debe ser un valor numérico válido' },
+        { status: 400 }
+      );
+    }
+    
+    if (typeof body.capacity !== 'number' || isNaN(body.capacity) || body.capacity < 1) {
+      return NextResponse.json(
+        { success: false, error: 'La capacidad debe ser un número mayor a 0' },
+        { status: 400 }
+      );
+    }
+    
+    const validLocations = ['interior', 'terraza', 'exterior', 'privado'];
+    if (!validLocations.includes(body.location)) {
+      return NextResponse.json(
+        { success: false, error: 'Ubicación inválida. Debe ser: interior, terraza, exterior o privado' },
+        { status: 400 }
+      );
+    }
+    
+    // Verificar si ya existe una mesa con ese número
+    const existingTable = await prisma.table.findFirst({
+      where: { number: body.number }
+    });
+    
+    if (existingTable) {
+      return NextResponse.json(
+        { success: false, error: `Ya existe una mesa con el número ${body.number}` },
+        { status: 409 }
+      );
+    }
+    
     const created = await prisma.table.create({
       data: {
         number: body.number,
@@ -72,8 +110,9 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json({ success: true, data: created }, { status: 201 });
   } catch (error) {
+    console.error('Error al crear mesa:', error);
     return NextResponse.json(
-      { success: false, error: 'Error al crear la mesa' },
+      { success: false, error: 'Error al crear la mesa: ' + (error instanceof Error ? error.message : 'Error desconocido') },
       { status: 500 }
     );
   }
