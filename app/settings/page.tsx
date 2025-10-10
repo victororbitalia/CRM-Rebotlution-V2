@@ -136,14 +136,14 @@ export default function SettingsPage() {
 
       {/* General */}
       {activeTab === 'general' && (
-        <div className="card p-6 space-y-6" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
+        <div className="card p-6 space-y-6">
           <div>
-            <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+            <h2 className="text-lg font-semibold text-text-primary mb-4">
               Información General
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Nombre del Restaurante
                 </label>
                 <input
@@ -154,7 +154,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Email
                 </label>
                 <input
@@ -165,7 +165,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Teléfono
                 </label>
                 <input
@@ -176,7 +176,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Dirección
                 </label>
                 <input
@@ -194,16 +194,16 @@ export default function SettingsPage() {
       {/* Reservas */}
       {activeTab === 'reservations' && (
         <div className="space-y-6">
-          <div className="card overflow-hidden" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
+          <div className="card overflow-hidden">
             <button
               onClick={() => toggleSection('reservations')}
               className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
             >
-              <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+              <h2 className="text-lg font-semibold text-text-primary">
                 Configuración de Reservas
               </h2>
               <svg
-                className={`w-5 h-5 text-[var(--text-secondary)] transition-transform ${expandedSections.reservations ? 'rotate-180' : ''}`}
+                className={`w-5 h-5 text-text-secondary transition-transform ${expandedSections.reservations ? 'rotate-180' : ''}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -215,7 +215,7 @@ export default function SettingsPage() {
               <div className="px-6 pb-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Días máximos de anticipación
                 </label>
                 <input
@@ -229,13 +229,13 @@ export default function SettingsPage() {
                   min="1"
                   max="365"
                 />
-                <p className="text-xs text-[var(--text-secondary)] mt-1">
+                <p className="text-xs text-text-secondary mt-1">
                   Cuántos días antes pueden reservar los clientes
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Horas mínimas de anticipación
                 </label>
                 <input
@@ -249,13 +249,13 @@ export default function SettingsPage() {
                   min="0"
                   max="48"
                 />
-                <p className="text-xs text-[var(--text-secondary)] mt-1">
+                <p className="text-xs text-text-secondary mt-1">
                   Tiempo mínimo antes de la reserva
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Duración por defecto (minutos)
                 </label>
                 <input
@@ -273,7 +273,7 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Ubicación por defecto de reservas
                 </label>
                 <select
@@ -290,13 +290,13 @@ export default function SettingsPage() {
                   <option value="terraza">Terraza</option>
                   <option value="privado">Privado</option>
                 </select>
-                <p className="text-xs text-[var(--text-secondary)] mt-1">
+                <p className="text-xs text-text-secondary mt-1">
                   Se usará al asignar mesa automáticamente si no se especifica una preferencia.
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Máximo de comensales por reserva
                 </label>
                 <input
@@ -324,7 +324,7 @@ export default function SettingsPage() {
                   })}
                   className="w-4 h-4 text-blue-600 rounded"
                 />
-                <span className="text-sm text-[var(--text-primary)]">
+                <span className="text-sm text-text-primary">
                   Permitir lista de espera cuando no hay disponibilidad
                 </span>
               </label>
@@ -339,7 +339,7 @@ export default function SettingsPage() {
                   })}
                   className="w-4 h-4 text-blue-600 rounded"
                 />
-                <span className="text-sm text-[var(--text-primary)]">
+                <span className="text-sm text-text-primary">
                   Requiere confirmación manual del restaurante
                 </span>
               </label>
@@ -349,16 +349,16 @@ export default function SettingsPage() {
           </div>
 
           {/* Horarios de apertura - Integrado en la pestaña de reservas */}
-          <div className="card overflow-hidden" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
+          <div className="card overflow-hidden">
             <button
               onClick={() => toggleSection('schedule')}
               className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
             >
-              <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+              <h2 className="text-lg font-semibold text-text-primary">
                 Horarios de Apertura
               </h2>
               <svg
-                className={`w-5 h-5 text-[var(--text-secondary)] transition-transform ${expandedSections.schedule ? 'rotate-180' : ''}`}
+                className={`w-5 h-5 text-text-secondary transition-transform ${expandedSections.schedule ? 'rotate-180' : ''}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -368,14 +368,14 @@ export default function SettingsPage() {
             </button>
             {expandedSections.schedule && (
               <div className="px-6 pb-6">
-            <p className="text-sm text-[var(--text-secondary)] mb-6">
+            <p className="text-sm text-text-secondary mb-6">
               Define los días y horas de funcionamiento del restaurante. Las reservas solo se permitirán dentro de estos horarios.
             </p>
             <div className="space-y-4">
               {daysOfWeek.map((day) => (
                 <div key={day.key} className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="font-semibold text-gray-900">{day.label}</h3>
+                    <h3 className="font-semibold text-text-primary">{day.label}</h3>
                     <label className="flex items-center gap-2">
                       <input
                         type="checkbox"
@@ -392,13 +392,13 @@ export default function SettingsPage() {
                         })}
                         className="w-4 h-4 text-blue-600 rounded"
                       />
-                      <span className="text-sm text-[var(--text-primary)]">Abierto</span>
+                      <span className="text-sm text-text-primary">Abierto</span>
                     </label>
                   </div>
                   {settings.schedule[day.key]?.isOpen && (
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                        <label className="block text-xs font-medium text-text-secondary mb-1">
                           Apertura
                         </label>
                         <input
@@ -418,7 +418,7 @@ export default function SettingsPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                        <label className="block text-xs font-medium text-text-secondary mb-1">
                           Cierre
                         </label>
                         <input
@@ -447,16 +447,16 @@ export default function SettingsPage() {
           </div>
 
           {/* Reglas por día de la semana */}
-          <div className="card overflow-hidden" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
+          <div className="card overflow-hidden">
             <button
               onClick={() => toggleSection('capacity')}
               className="w-full p-6 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
             >
-              <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+              <h2 className="text-lg font-semibold text-text-primary">
                 Configuración de Capacidad
               </h2>
               <svg
-                className={`w-5 h-5 text-[var(--text-secondary)] transition-transform ${expandedSections.capacity ? 'rotate-180' : ''}`}
+                className={`w-5 h-5 text-text-secondary transition-transform ${expandedSections.capacity ? 'rotate-180' : ''}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -466,17 +466,17 @@ export default function SettingsPage() {
             </button>
             {expandedSections.capacity && (
               <div className="px-6 pb-6">
-            <p className="text-sm text-[var(--text-secondary)] mb-6">
+            <p className="text-sm text-text-secondary mb-6">
               Ajusta la capacidad y límites según el día. Útil para reducir capacidad entre semana y aumentarla los fines de semana.
             </p>
             
             <div className="space-y-4">
               {daysOfWeek.map((day) => (
                 <div key={day.key} className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-                  <h3 className="font-semibold text-gray-900 mb-3">{day.label}</h3>
+                  <h3 className="font-semibold text-text-primary mb-3">{day.label}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                      <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                      <label className="block text-xs font-medium text-text-secondary mb-1">
                         Máx. Reservas
                       </label>
                       <input
@@ -488,7 +488,7 @@ export default function SettingsPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                      <label className="block text-xs font-medium text-text-secondary mb-1">
                         Máx. Comensales
                       </label>
                       <input
@@ -500,7 +500,7 @@ export default function SettingsPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-[var(--text-secondary)] mb-1">
+                      <label className="block text-xs font-medium text-text-secondary mb-1">
                         Mesas Disponibles
                       </label>
                       <input
@@ -524,14 +524,14 @@ export default function SettingsPage() {
 
       {/* Mesas */}
       {activeTab === 'tables' && (
-        <div className="card p-6" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
-          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+        <div className="card p-6">
+          <h2 className="text-lg font-semibold text-text-primary mb-4">
             Gestión de Mesas
           </h2>
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Total de mesas
                 </label>
                 <input
@@ -547,7 +547,7 @@ export default function SettingsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Mesas reservadas siempre (Walk-ins)
                 </label>
                 <input
@@ -561,13 +561,13 @@ export default function SettingsPage() {
                   min="0"
                   max={settings.tables.totalTables}
                 />
-                <p className="text-xs text-[var(--text-secondary)] mt-1">
+                <p className="text-xs text-text-secondary mt-1">
                   Mesas que nunca se pueden reservar online (para clientes sin reserva)
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
+                <label className="block text-sm font-medium text-text-primary mb-2">
                   Porcentaje máximo de ocupación (%)
                 </label>
                 <input
@@ -581,7 +581,7 @@ export default function SettingsPage() {
                   min="50"
                   max="100"
                 />
-                <p className="text-xs text-[var(--text-secondary)] mt-1">
+                <p className="text-xs text-text-secondary mt-1">
                   Limita la ocupación máxima permitida
                 </p>
               </div>
@@ -599,8 +599,8 @@ export default function SettingsPage() {
             </div>
 
             {/* Notificaciones por Email - Ahora funcional */}
-            <div className="card p-6 mt-6" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
-              <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+            <div className="card p-6 mt-6">
+              <h2 className="text-lg font-semibold text-text-primary mb-4">
                 Notificaciones por Email
               </h2>
               <div className="p-4 bg-green-50 rounded-lg border border-green-200 mb-4">
@@ -626,7 +626,7 @@ export default function SettingsPage() {
                     })}
                     className="w-4 h-4 text-blue-600 rounded"
                   />
-                  <span className="text-sm text-[var(--text-primary)]">
+                  <span className="text-sm text-text-primary">
                     Activar notificaciones por email
                   </span>
                 </label>
@@ -644,7 +644,7 @@ export default function SettingsPage() {
                     })}
                     className="w-4 h-4 text-blue-600 rounded"
                   />
-                  <span className="text-sm text-[var(--text-primary)]">
+                  <span className="text-sm text-text-primary">
                     Enviar email de confirmación al crear reservas
                   </span>
                 </label>
@@ -672,11 +672,11 @@ export default function SettingsPage() {
 
       {/* Mapa de Mesas - Redirección a la página dedicada */}
       {activeTab === 'tables-map' && (
-        <div className="card p-6 text-center" style={{ backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)' }}>
-          <h2 className="text-lg font-semibold text-[var(--text-primary)] mb-4">
+        <div className="card p-6 text-center">
+          <h2 className="text-lg font-semibold text-text-primary mb-4">
             Mapa Visual de Mesas
           </h2>
-          <p className="text-sm text-[var(--text-secondary)] mb-6">
+          <p className="text-sm text-text-secondary mb-6">
             Organiza visualmente tu restaurante con nuestro mapa interactivo de mesas.
           </p>
           <div className="p-4 bg-blue-50 rounded-lg border border-blue-200 mb-6">

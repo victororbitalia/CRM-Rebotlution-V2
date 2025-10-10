@@ -210,80 +210,46 @@ export default function TablesMapPage() {
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Cabecera de la página */}
-      <div className="page-header" style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        marginBottom: '20px',
-        flexWrap: 'wrap',
-        gap: '16px'
-      }}>
+      <div className="page-header flex justify-between items-center mb-5 flex-wrap gap-4">
         <div>
-          <h1 style={{ 
-            fontSize: '24px',
-            fontWeight: '700',
-            color: '#111827',
-            marginBottom: '4px'
-          }}>
+          <h1 className="text-2xl font-bold text-text-primary mb-1">
             Mapa de Mesas
           </h1>
-          <p style={{ fontSize: '14px', color: '#6b7280' }}>
+          <p className="text-sm text-text-secondary">
             Organiza visualmente tu restaurante y gestiona las reservas
           </p>
         </div>
         
-        <div className="controls" style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+        <div className="controls flex gap-3 items-center">
           {/* Selector de fecha para modo vista */}
           {viewMode === 'view' && (
             <input
               type="date"
               value={selectedDate}
               onChange={(e) => handleDateChange(e.target.value)}
-              style={{
-                padding: '8px 12px',
-                border: '1px solid #d1d5db',
-                borderRadius: '8px',
-                fontSize: '14px',
-                backgroundColor: '#ffffff',
-                color: '#374151',
-              }}
+              className="px-3 py-2 border border-border rounded-lg text-sm bg-surface text-text-primary"
             />
           )}
           
           {/* Interruptor de modo vista/edición */}
-          <div style={{ 
-            display: 'flex',
-            backgroundColor: '#f3f4f6',
-            borderRadius: '8px',
-            padding: '2px'
-          }}>
+          <div className="flex bg-surface-hover rounded-lg p-0.5">
             <button
               onClick={() => setViewMode('view')}
-              style={{
-                padding: '6px 12px',
-                backgroundColor: viewMode === 'view' ? '#3b82f6' : 'transparent',
-                color: viewMode === 'view' ? '#ffffff' : '#6b7280',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: 'medium',
-              }}
+              className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                viewMode === 'view'
+                  ? 'bg-primary text-white'
+                  : 'text-text-secondary hover:text-text-primary'
+              }`}
             >
               Ver Reservas
             </button>
             <button
               onClick={() => setViewMode('edit')}
-              style={{
-                padding: '6px 12px',
-                backgroundColor: viewMode === 'edit' ? '#3b82f6' : 'transparent',
-                color: viewMode === 'edit' ? '#ffffff' : '#6b7280',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: 'medium',
-              }}
+              className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                viewMode === 'edit'
+                  ? 'bg-primary text-white'
+                  : 'text-text-secondary hover:text-text-primary'
+              }`}
             >
               Editar Mapa
             </button>
@@ -293,36 +259,21 @@ export default function TablesMapPage() {
 
       {/* Mensaje de error */}
       {error && (
-        <div style={{
-          padding: '12px',
-          backgroundColor: '#fef2f2',
-          border: '1px solid #fecaca',
-          borderRadius: '8px',
-          marginBottom: '20px',
-          color: '#991b1b',
-          fontSize: '14px',
-        }}>
+        <div className="p-3 bg-danger-50 border border-danger-200 rounded-lg mb-5 text-danger-800 text-sm">
           {error}
         </div>
       )}
 
       {/* Indicador de carga */}
       {loading && (
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '200px',
-          fontSize: '16px',
-          color: '#94a3b8',
-        }}>
+        <div className="flex justify-center items-center h-48 text-base text-text-muted">
           Cargando mapa de mesas...
         </div>
       )}
 
       {/* Contenido principal */}
       {!loading && (
-        <div style={{ display: 'flex', gap: '20px', flexDirection: 'column' }}>
+        <div className="flex flex-col gap-5">
           {/* Herramientas de edición en modo edición */}
           {viewMode === 'edit' && (
             <MapEditTools
@@ -348,70 +299,49 @@ export default function TablesMapPage() {
           
           {/* Panel lateral con detalles de la mesa seleccionada */}
           {selectedTable && (
-            <div style={{
-              width: '100%',
-              padding: '16px',
-              backgroundColor: '#ffffff',
-              border: '1px solid #e5e7eb',
-              borderRadius: '12px',
-              marginTop: '20px',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
-            }}>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '12px',
-              }}>
-                <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#111827' }}>
+            <div className="card p-4 mt-5">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-base font-bold text-text-primary">
                   Mesa {selectedTable.number}
                 </h3>
                 <button
                   onClick={() => setSelectedTableId(null)}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    fontSize: '18px',
-                    cursor: 'pointer',
-                    color: '#6b7280',
-                  }}
+                  className="bg-transparent border-none text-lg cursor-pointer text-text-secondary hover:text-text-primary"
                 >
                   ×
                 </button>
               </div>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', fontSize: '14px' }}>
+              <div className="grid grid-cols-2 gap-2 text-sm">
                 <div>
-                  <span style={{ color: '#6b7280' }}>Capacidad:</span>
-                  <span style={{ fontWeight: 'medium', marginLeft: '4px' }}>
+                  <span className="text-text-secondary">Capacidad:</span>
+                  <span className="font-medium ml-1">
                     {selectedTable.capacity} personas
                   </span>
                 </div>
                 <div>
-                  <span style={{ color: '#6b7280' }}>Ubicación:</span>
-                  <span style={{ fontWeight: 'medium', marginLeft: '4px' }}>
-                    {selectedTable.location === 'interior' ? 'Interior' : 
-                     selectedTable.location === 'terraza' ? 'Terraza' : 
+                  <span className="text-text-secondary">Ubicación:</span>
+                  <span className="font-medium ml-1">
+                    {selectedTable.location === 'interior' ? 'Interior' :
+                     selectedTable.location === 'terraza' ? 'Terraza' :
                      selectedTable.location === 'exterior' ? 'Exterior' : 'Privado'}
                   </span>
                 </div>
                 <div>
-                  <span style={{ color: '#6b7280' }}>Forma:</span>
-                  <span style={{ fontWeight: 'medium', marginLeft: '4px' }}>
-                    {selectedTable.shape === 'square' ? 'Cuadrada' : 
+                  <span className="text-text-secondary">Forma:</span>
+                  <span className="font-medium ml-1">
+                    {selectedTable.shape === 'square' ? 'Cuadrada' :
                      selectedTable.shape === 'rectangle' ? 'Rectangular' : 'Redonda'}
                   </span>
                 </div>
                 <div>
-                  <span style={{ color: '#6b7280' }}>Estado:</span>
-                  <span style={{ 
-                    fontWeight: 'medium', 
-                    marginLeft: '4px',
-                    color: selectedTable.status === 'available' ? '#059669' :
-                           selectedTable.status === 'reserved' ? '#d97706' :
-                           selectedTable.status === 'occupied' ? '#dc2626' : '#6b7280'
-                  }}>
-                    {selectedTable.status === 'available' ? 'Disponible' : 
+                  <span className="text-text-secondary">Estado:</span>
+                  <span className={`font-medium ml-1 ${
+                    selectedTable.status === 'available' ? 'text-success' :
+                           selectedTable.status === 'reserved' ? 'text-warning' :
+                           selectedTable.status === 'occupied' ? 'text-danger' : 'text-text-secondary'
+                  }`}>
+                    {selectedTable.status === 'available' ? 'Disponible' :
                      selectedTable.status === 'reserved' ? 'Reservada' :
                      selectedTable.status === 'occupied' ? 'Ocupada' : 'Bloqueada'}
                   </span>
@@ -420,22 +350,17 @@ export default function TablesMapPage() {
               
               {/* Reservas de la mesa */}
               {viewMode === 'view' && selectedTableReservations.length > 0 && (
-                <div style={{ marginTop: '16px' }}>
-                  <h4 style={{ fontSize: '14px', fontWeight: 'bold', color: '#111827', marginBottom: '8px' }}>
+                <div className="mt-4">
+                  <h4 className="text-sm font-bold text-text-primary mb-2">
                     Reservas para {new Date(selectedDate).toLocaleDateString('es-ES')}:
                   </h4>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div className="flex flex-col gap-2">
                     {selectedTableReservations.map(reservation => (
-                      <div key={reservation.id} style={{
-                        padding: '8px',
-                        backgroundColor: '#1e293b',
-                        borderRadius: '4px',
-                        fontSize: '12px',
-                      }}>
-                        <div style={{ fontWeight: 'medium' }}>{reservation.customerName}</div>
+                      <div key={reservation.id} className="p-2 bg-surface rounded text-xs">
+                        <div className="font-medium">{reservation.customerName}</div>
                         <div>{reservation.time} - {reservation.guests} personas</div>
-                        <div style={{ color: '#94a3b8', fontSize: '11px' }}>
-                          Estado: {reservation.status === 'confirmed' ? 'Confirmada' : 
+                        <div className="text-text-muted text-[11px]">
+                          Estado: {reservation.status === 'confirmed' ? 'Confirmada' :
                                  reservation.status === 'pending' ? 'Pendiente' : reservation.status}
                         </div>
                       </div>
@@ -446,19 +371,10 @@ export default function TablesMapPage() {
               
               {/* Botones de acción */}
               {viewMode === 'edit' && (
-                <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
+                <div className="flex gap-2 mt-4">
                   <button
                     onClick={() => handleDeleteTable(selectedTable.id)}
-                    style={{
-                      padding: '8px 12px',
-                      backgroundColor: '#ef4444',
-                      color: '#ffffff',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      fontSize: '12px',
-                      fontWeight: 'medium',
-                    }}
+                    className="px-3 py-2 bg-danger text-white border-none rounded cursor-pointer text-xs font-medium hover:bg-danger-dark transition-colors"
                   >
                     Eliminar Mesa
                   </button>
