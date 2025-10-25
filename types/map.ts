@@ -86,6 +86,7 @@ export interface Reservation {
   status: 'pending' | 'confirmed' | 'seated' | 'completed' | 'cancelled';
   specialRequests?: string;
   tableId?: string;
+  preferredLocation?: 'interior' | 'exterior' | 'terraza' | 'privado' | 'any';
   createdAt: Date;
   updatedAt: Date;
 }

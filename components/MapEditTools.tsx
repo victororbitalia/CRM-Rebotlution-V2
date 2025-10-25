@@ -42,13 +42,8 @@ export default function MapEditTools({
   const handleTableSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Convertir el número de mesa a entero antes de enviar
-    const tableDataToSend = {
-      ...tableForm,
-      number: parseInt(tableForm.number, 10),
-    };
-    
-    onAddTable(tableDataToSend);
+    // Enviar el formulario directamente (el número se mantiene como string)
+    onAddTable(tableForm);
     setTableForm({
       ...tableForm,
       number: (tablesCount + 1).toString(),

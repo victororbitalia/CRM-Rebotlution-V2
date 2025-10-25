@@ -1,16 +1,137 @@
-import { Reservation, Table } from '@/types';
+import { Reservation } from '@/types';
+import { Table } from '@/types/map';
 
 export const mockTables: Table[] = [
-  { id: 'table-1', number: 1, capacity: 2, location: 'interior', isAvailable: true },
-  { id: 'table-2', number: 2, capacity: 2, location: 'interior', isAvailable: true },
-  { id: 'table-3', number: 3, capacity: 4, location: 'interior', isAvailable: false },
-  { id: 'table-4', number: 4, capacity: 4, location: 'interior', isAvailable: true },
-  { id: 'table-5', number: 5, capacity: 6, location: 'interior', isAvailable: true },
-  { id: 'table-6', number: 6, capacity: 2, location: 'exterior', isAvailable: true },
-  { id: 'table-7', number: 7, capacity: 4, location: 'exterior', isAvailable: true },
-  { id: 'table-8', number: 8, capacity: 4, location: 'terraza', isAvailable: true },
-  { id: 'table-9', number: 9, capacity: 6, location: 'terraza', isAvailable: false },
-  { id: 'table-10', number: 10, capacity: 8, location: 'privado', isAvailable: true },
+  {
+    id: 'table-1',
+    number: 1,
+    capacity: 2,
+    location: 'interior',
+    isAvailable: true,
+    position: { x: 100, y: 100 },
+    size: { width: 60, height: 60 },
+    shape: 'square',
+    status: 'available',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'table-2',
+    number: 2,
+    capacity: 2,
+    location: 'interior',
+    isAvailable: true,
+    position: { x: 200, y: 100 },
+    size: { width: 60, height: 60 },
+    shape: 'square',
+    status: 'available',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'table-3',
+    number: 3,
+    capacity: 4,
+    location: 'interior',
+    isAvailable: false,
+    position: { x: 300, y: 100 },
+    size: { width: 80, height: 80 },
+    shape: 'square',
+    status: 'blocked',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'table-4',
+    number: 4,
+    capacity: 4,
+    location: 'interior',
+    isAvailable: true,
+    position: { x: 100, y: 200 },
+    size: { width: 80, height: 80 },
+    shape: 'rectangle',
+    status: 'available',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'table-5',
+    number: 5,
+    capacity: 6,
+    location: 'interior',
+    isAvailable: true,
+    position: { x: 200, y: 200 },
+    size: { width: 100, height: 100 },
+    shape: 'circle',
+    status: 'available',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'table-6',
+    number: 6,
+    capacity: 2,
+    location: 'exterior',
+    isAvailable: true,
+    position: { x: 300, y: 200 },
+    size: { width: 60, height: 60 },
+    shape: 'square',
+    status: 'available',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'table-7',
+    number: 7,
+    capacity: 4,
+    location: 'exterior',
+    isAvailable: true,
+    position: { x: 100, y: 300 },
+    size: { width: 80, height: 80 },
+    shape: 'rectangle',
+    status: 'available',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'table-8',
+    number: 8,
+    capacity: 4,
+    location: 'terraza',
+    isAvailable: true,
+    position: { x: 200, y: 300 },
+    size: { width: 80, height: 80 },
+    shape: 'square',
+    status: 'available',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'table-9',
+    number: 9,
+    capacity: 6,
+    location: 'terraza',
+    isAvailable: false,
+    position: { x: 300, y: 300 },
+    size: { width: 100, height: 100 },
+    shape: 'circle',
+    status: 'blocked',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  {
+    id: 'table-10',
+    number: 10,
+    capacity: 8,
+    location: 'privado',
+    isAvailable: true,
+    position: { x: 150, y: 400 },
+    size: { width: 120, height: 120 },
+    shape: 'rectangle',
+    status: 'available',
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
 ];
 
 // Generar reservas para hoy y próximos días
@@ -33,6 +154,7 @@ export const mockReservations: Reservation[] = [
     status: 'confirmed',
     specialRequests: 'Mesa junto a la ventana',
     createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 'res-2',
@@ -46,6 +168,7 @@ export const mockReservations: Reservation[] = [
     status: 'confirmed',
     specialRequests: 'Cumpleaños - traer postre especial',
     createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 'res-3',
@@ -58,6 +181,7 @@ export const mockReservations: Reservation[] = [
     tableId: 'table-6',
     status: 'pending',
     createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 'res-4',
@@ -69,6 +193,7 @@ export const mockReservations: Reservation[] = [
     guests: 4,
     status: 'pending',
     createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 'res-5',
@@ -82,6 +207,7 @@ export const mockReservations: Reservation[] = [
     status: 'confirmed',
     specialRequests: 'Menú vegano completo',
     createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 'res-6',
@@ -94,6 +220,7 @@ export const mockReservations: Reservation[] = [
     tableId: 'table-9',
     status: 'confirmed',
     createdAt: new Date(),
+    updatedAt: new Date(),
   },
   {
     id: 'res-7',
@@ -105,5 +232,6 @@ export const mockReservations: Reservation[] = [
     guests: 2,
     status: 'pending',
     createdAt: new Date(),
+    updatedAt: new Date(),
   },
 ];

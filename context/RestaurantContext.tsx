@@ -1,8 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Reservation, Table } from '@/types';
-import { TableFormData, ZoneFormData } from '@/types/map';
+import { Reservation } from '@/types';
+import { Table, TableFormData, ZoneFormData } from '@/types/map';
 import { mockReservations, mockTables } from '@/lib/mockData';
 
 interface RestaurantContextType {

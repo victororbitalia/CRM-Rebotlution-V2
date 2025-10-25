@@ -169,6 +169,7 @@ export default function ReservationsPage() {
         // Reservas creadas manualmente desde el Dashboard quedan confirmadas por defecto
         status: 'confirmed',
         specialRequests: formData.specialRequests || undefined,
+        updatedAt: new Date(),
       });
 
       setFormData({

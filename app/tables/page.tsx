@@ -3,7 +3,7 @@
 import { useRestaurant } from '@/context/RestaurantContext';
 import { TableIcon, LocationIcon } from '@/components/Icons';
 import { useMemo, useState, useEffect } from 'react';
-import { Table } from '@/types';
+import { Table } from '@/types/map';
 
 export default function TablesPage() {
   const { tables, reservations, createTable, toggleTableAvailability, refreshTables } = useRestaurant();
