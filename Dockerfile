@@ -59,5 +59,5 @@ ENV PORT=3001
 ENV HOSTNAME="0.0.0.0"
 
 # Ejecutar migraciones si existen; si no, sincronizar el esquema con db push
-CMD ["sh", "-c", "if [ -d prisma/migrations ] && [ \"$(ls -A prisma/migrations 2>/dev/null)\" ]; then npx prisma migrate deploy; else npx prisma db push; fi; node server.js"]
+CMD ["sh", "-c", "if [ -d prisma/migrations ] && [ \"$(ls -A prisma/migrations 2>/dev/null)\" ]; then npx prisma migrate deploy && npx prisma db push; else npx prisma db push; fi; node server.js"]
 
